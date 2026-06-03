@@ -1,0 +1,28 @@
+Package: operantlunar
+Title: Differentiating Reward Maximization from Melioration via Operant Conditioning
+Version: 0.1.0
+Authors@R: person("Sondre", "Skarsten", email = "sondreskarsten@gmail.com", role = c("aut", "cre"))
+Author: Sondre Skarsten [aut, cre]
+Maintainer: Sondre Skarsten <sondreskarsten@gmail.com>
+Description: A tabular reinforcement-learning instrument that mechanistically
+    differentiates reward-maximizing control (the law of effect) from descriptive
+    melioration (the matching law). Provides a shared learning skeleton, a battery
+    of operant levers (schedule family, melioration trap, extinction), several
+    learning rules, a generalized matching-law fit, an optional Python LunarLander
+    environment via reticulate, and a bundled Shiny app.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 8.0.0
+Depends: R (>= 4.1)
+Imports:
+    stats,
+    dplyr,
+    tibble,
+    ggplot2,
+    reticulate,
+    utils,
+    shiny
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

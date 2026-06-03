@@ -1,0 +1,15 @@
+library(operantlunar)
+
+make_bin_edges()
+lunar_featurizer()(lunar_low)
+softmax(c(0, 1, -1, 0.5))
+fit_generalized_matching(n_steps = 8000)
+melioration_trap()$optimum()
+melioration_trap()$matching_point()
+melioration_trap_experiment(n_steps = 20000)
+schedule_matching_table(n_steps = 8000)
+extinction_experiment(acquire_steps = 4000, extinction_steps = 4000)
+operant_battery()
+
+lunar_setup("/usr/bin/python3")
+differentiate(n_train = 100, n_eval = 20)

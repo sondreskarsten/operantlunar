@@ -1,0 +1,4 @@
+^scripts$
+^results$
+^\.git$
+^README\.md$
