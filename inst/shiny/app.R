@@ -248,7 +248,10 @@ server <- function(input, output, session) {
   })
   sig_plot_obj <- eventReactive(input$sig_run, {
     switch(input$sig_pick,
-      "Matching law" = plot_herrnstein(herrnstein_experiment(n_steps = 6000L)),
+      "Matching law" = {
+        d_h <- herrnstein_experiment(n_steps = 8000L)
+        plot_herrnstein(d_h, fit_herrnstein_hyperbola(d_h$reinforcement_rate, d_h$response_rate))
+      },
       "Melioration vs maximisation" = plot_trap(melioration_trap_experiment(n_steps = 12000L)),
       "Extinction" = plot_extinction(extinction_experiment(acquire_steps = 6000L, extinction_steps = 6000L)),
       "DRL (low-rate spacing)" = plot_drl(drl_experiment(n_steps = 20000L)),
