@@ -151,6 +151,20 @@ ui <- fluidPage(
         ),
         mainPanel(plotOutput("ll_plot"), verbatimTextOutput("ll_text"))
       )
+    ),
+    tabPanel(
+      "Gym (ABA framework)",
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("gym_pick", "Instrument", choices = c("Functional analysis", "Differential reinforcement (DRA)")),
+          actionButton("gym_run", "Run"),
+          helpText("ABA instruments on the Gymnasium contract: functional analysis as reward-channel ablation, DRA as contingency reallocation. The table maps each instrument to the RL problem it reframes. FrozenLake extinction runs from the console and is omitted here to keep the app Python-free.")
+        ),
+        mainPanel(
+          tableOutput("gym_map"),
+          plotOutput("gym_plot")
+        )
+      )
     )
   )
 )
@@ -282,6 +296,15 @@ server <- function(input, output, session) {
     )
   })
   output$sig_plot <- renderPlot(sig_plot_obj())
+
+  output$gym_map <- renderTable(aba_gym_mapping())
+  gym_plot_obj <- eventReactive(input$gym_run, {
+    switch(input$gym_pick,
+      "Functional analysis" = plot_gym_functional_analysis(gym_functional_analysis(true_function = "escape", n_steps = 16000L)),
+      "Differential reinforcement (DRA)" = plot_gym_dra(gym_dra(n_baseline = 400L, n_treatment = 600L))
+    )
+  })
+  output$gym_plot <- renderPlot(gym_plot_obj())
 
   ll_res <- eventReactive(input$ll_run, {
     lunar_setup()

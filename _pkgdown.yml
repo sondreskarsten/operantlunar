@@ -111,6 +111,16 @@ reference:
       - cumulative_record
       - schedule_record_demo
       - fi_temporal_demo
+  - title: ABA-to-gym mapping
+    contents:
+      - contingency_env
+      - as_channel_env
+      - fa_channel_env
+      - gridworld_env
+      - gym_functional_analysis
+      - gym_dra
+      - gym_extinction
+      - aba_gym_mapping
   - title: App
     contents:
       - run_app

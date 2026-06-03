@@ -2,6 +2,7 @@
 
 ## Operant-conditioning primer
 
+* The toolkit instruments are mapped to the Gymnasium reset/step contract so ABA serves as an alternative analytic framework for RL problems. `contingency_env()` gates reward channels (the single lever the instruments pull); `as_channel_env()` exposes any single-reward gym env as one channel. `gym_functional_analysis()` performs functional analysis as reward-channel ablation (recovers a planted maintaining channel); `gym_dra()` reallocates behaviour from a problem arm to an alternative on a multi-state gridworld; `gym_extinction()` withdraws the maintaining channel on the real `FrozenLake-v1` task and shows the acquired policy collapse. `aba_gym_mapping()` documents the framework, with the vignette "ABA as a framework for reinforcement-learning problems".
 * `operant_glossary()` and `operant_bibliography()` provide a verified beginner's
   glossary of operant-conditioning concepts and the bundled handbook corpus,
   with a companion "An operant-conditioning primer" vignette and an **Operant
