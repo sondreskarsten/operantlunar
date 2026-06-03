@@ -123,12 +123,14 @@ ui <- fluidPage(
       )
     ),
     tabPanel(
-      "Behavioral signatures",
+      "ABA toolkit",
       sidebarLayout(
         sidebarPanel(
-          selectInput("sig_pick", "Phenomenon", choices = behavioral_signatures()$signature),
-          actionButton("sig_run", "Run demonstration"),
-          helpText("Each glossary phenomenon shown in the agents' own behaviour. Reward-driven agents reproduce reward-rational signatures; quirks needing temporal generalisation, molar feedback, or non-optimal pausing are flagged honestly in the status.")
+          selectInput("sig_pick", "Instrument or phenomenon",
+                      choices = list(`ABA toolkit` = as.list(aba_toolkit()$tool),
+                                     `Phenomena (candidate instruments)` = as.list(basic_phenomena()$phenomenon))),
+          actionButton("sig_run", "Run"),
+          helpText("Validated function-based instruments (organised around reinforcement, the operant contingency) plus basic phenomena awaiting operationalisation. Functional analysis is one scoped assessment instrument, not a prerequisite for the others.")
         ),
         mainPanel(
           htmlOutput("sig_info"),
@@ -231,38 +233,45 @@ server <- function(input, output, session) {
   )
 
   sig_row <- reactive({
-    s <- behavioral_signatures()
-    s[s$signature == input$sig_pick, ]
+    tk <- aba_toolkit()
+    ph <- basic_phenomena()
+    if (input$sig_pick %in% tk$tool) list(kind = "tool", row = tk[tk$tool == input$sig_pick, ])
+    else list(kind = "phenomenon", row = ph[ph$phenomenon == input$sig_pick, ])
   })
   output$sig_info <- renderUI({
-    row <- sig_row()
-    g <- operant_glossary()
-    def <- g$definition[match(row$glossary_term, g$term)]
-    HTML(paste0(
-      "<b>Group:</b> ", row$group, "<br/>",
-      "<b>Glossary term:</b> ", row$glossary_term, "<br/><i>",
-      if (length(def) == 0 || is.na(def)) "" else def, "</i><br/><br/>",
-      "<b>Agent / paradigm:</b> ", row$agent, " on ", row$paradigm, "<br/>",
-      "<b>Shows:</b> ", row$shows, "<br/>",
-      "<b>Status:</b> ", row$status, " &mdash; ", row$note
-    ))
+    sr <- sig_row()
+    row <- sr$row
+    if (sr$kind == "tool") {
+      HTML(paste0(
+        "<b>Type:</b> ", row$type, " (ABA toolkit)<br/>",
+        "<b>What it does:</b> ", row$what_it_does, "<br/>",
+        "<b>Validation:</b> ", row$validation, "<br/><i>", row$note, "</i>"
+      ))
+    } else {
+      HTML(paste0(
+        "<b>Phenomenon</b> (candidate instrument)<br/>",
+        "<b>Shows:</b> ", row$shows, "<br/>",
+        "<b>Status:</b> ", row$status, " &mdash; ", row$note
+      ))
+    }
   })
   sig_plot_obj <- eventReactive(input$sig_run, {
     switch(input$sig_pick,
-      "DRA / FCT reallocation" = plot_dra_fct(dra_fct_demo(baseline = 4000L, treatment = 8000L)),
+      "Functional analysis" = plot_functional_analysis(functional_analysis(true_function = "attention", n_steps = 20000L)),
+      "Extinction" = plot_extinction(extinction_experiment(acquire_steps = 6000L, extinction_steps = 6000L)),
+      "Differential reinforcement (DRA/FCT)" = plot_dra_fct(dra_fct_demo(baseline = 4000L, treatment = 8000L)),
+      "Differential reinforcement of low rates (DRL)" = plot_drl(drl_experiment(n_steps = 20000L)),
       "Matching law" = {
         d_h <- herrnstein_experiment(n_steps = 8000L)
         plot_herrnstein(d_h, fit_herrnstein_hyperbola(d_h$reinforcement_rate, d_h$response_rate))
       },
       "Melioration vs maximisation" = plot_trap(melioration_trap_experiment(n_steps = 12000L)),
-      "Extinction" = plot_extinction(extinction_experiment(acquire_steps = 6000L, extinction_steps = 6000L)),
-      "DRL (low-rate spacing)" = plot_drl(drl_experiment(n_steps = 20000L)),
       "Self-control / delay discounting" = plot_self_control(self_control_experiment(n_steps = 20000L)),
       "FI temporal control" = plot_fi_temporal(fi_temporal_demo(n_steps = 24000L)),
       "Cumulative record (steady rate)" = plot_cumulative_record(schedule_record_demo("VR", 10, n_steps = 4000L), "Cumulative record \u2014 VR (steady high rate)"),
       "VR vs VI rate difference" = plot_cumulative_record(schedule_record_demo("VI", 20, n_steps = 4000L), "Cumulative record \u2014 VI (single-state agent: ~VR rate)"),
       "FR post-reinforcement pause" = plot_cumulative_record(schedule_record_demo("FR", 10, n_steps = 4000L), "Cumulative record \u2014 FR (no post-reinforcement pause)"),
-      "Undermatching / changeover delay" = {
+      "Changeover delay / undermatching" = {
         cd <- changeover_delay_demo(n_steps = 8000L)
         ggplot2::ggplot(cd, ggplot2::aes(factor(cod), slope)) +
           ggplot2::geom_col(fill = "#3b7dd8") +

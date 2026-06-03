@@ -21,6 +21,7 @@
   record; `plot_cumulative_record()` and `plot_fi_temporal()` plot the new views.
 * A **Behavioral signatures** dashboard tab runs the demonstrating agent live per
   phenomenon and shows its glossary definition alongside an honest status.
+* The signature set is reframed as a validated ABA toolkit. `aba_toolkit()` lists function-based instruments organised around the core mechanism (reinforcement, the operant contingency); `basic_phenomena()` holds reproduced phenomena as a candidate-instrument pipeline. `fa_chamber()` / `functional_analysis()` / `plot_functional_analysis()` add functional analysis as a scoped assessment instrument that recovers a planted maintaining function (attention, escape, tangible, automatic) against a play control; it is not a prerequisite for the other tools.
 * `behavioral_signatures()` now separates an applied-robust core (DRA/FCT, extinction, DRL, self-control) from basic-science phenomena (matching law, FI, schedule records), reflecting what replicates and is used in applied ABA. `dra_chamber()` / `dra_fct_demo()` add the differential-reinforcement (DRA/FCT) reallocation signature: with the problem response on extinction and an alternative reinforced, behaviour reallocates to the alternative, the contingency engine behind the most robustly replicated applied intervention.
 
 ## New learning rules

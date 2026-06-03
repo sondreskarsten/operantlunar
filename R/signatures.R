@@ -118,53 +118,77 @@ fi_temporal_demo <- function(interval = 20, beta = 6, alpha = 0.1, gamma = 0.99,
   list(by_time = by_time[order(by_time$elapsed), ], record = cumulative_record(res$actions[idx], res$rewards[idx]), interval = interval)
 }
 
-#' Behavioral-signature registry
+#' ABA toolkit: validated function-based instruments
 #'
-#' Maps each operant phenomenon in [operant_glossary()] to the agent and paradigm
-#' that demonstrate it, what the demonstration shows, and an honest status: a
-#' reward-driven agent reproduces reward-rational signatures but not quirks that
-#' depend on temporal generalisation, molar feedback, or non-optimal pausing.
+#' Operationalised, literature-verified ABA tools, organised around the core
+#' mechanism (reinforcement, the operant contingency). Functional analysis is an
+#' assessment instrument; the rest are function-based interventions. Functional
+#' analysis is one scoped instrument, not a prerequisite: ABA can proceed without
+#' assessment, so no other tool here requires it.
 #'
-#' @return A tibble with `signature`, `glossary_term`, `agent`, `paradigm`,
-#'   `shows`, `status`, `note`.
+#' @return A tibble with `tool`, `type`, `env`, `what_it_does`, `validation`, `note`.
 #' @export
 #' @examples
-#' behavioral_signatures()
-behavioral_signatures <- function() {
+#' aba_toolkit()
+aba_toolkit <- function() {
   tibble::tribble(
-    ~group, ~signature, ~glossary_term, ~agent, ~paradigm, ~shows, ~status, ~note,
-    "Applied-robust core", "DRA / FCT reallocation", "Differential reinforcement of alternative behaviour (DRA)", "q_learning", "DRA chamber (baseline then treatment)",
-    "When the problem response is put on extinction and an alternative is reinforced, behaviour reallocates from the problem response to the alternative.", "reproduced",
-    "The contingency engine under DRA/FCT, the most robustly replicated applied effect. Reproduces the reallocation mechanism, not the clinical apparatus (no functional analysis, prompting, or programmed generalisation).",
-    "Applied-robust core", "Extinction", "Extinction", "q_learning", "operant chamber, reinforcement withdrawn",
-    "Responding declines once reinforcement stops; behaviour acquired on leaner schedules is more resistant.", "reproduced",
-    "Extinction is a necessary component of DRA/FCT; the partial-reinforcement extinction effect is visible across acquisition schedules.",
-    "Applied-robust core", "DRL (low-rate spacing)", "Variable-interval (VI)", "q_learning", "DRL chamber (IRT state)",
-    "The agent learns to space responses, holding rate near 1/threshold to earn reinforcement.", "reproduced",
-    "Requires the inter-response-time observation. Maps to clinical DRL for high-rate behaviour.",
-    "Applied-robust core", "Self-control / delay discounting", "Operant conditioning", "q_learning vs melioration", "self-control env",
-    "The far-sighted agent chooses the large-later reward; the myopic agent stays impulsive.", "reproduced",
-    "Model-based and Q-learning are self-controlled; gradient-bandit melioration is impulsive. Behavioural-economic, increasingly applied.",
-    "Basic-science (not applied-robust)", "Melioration vs maximisation", "Maximisation vs melioration", "melioration vs q_learning", "melioration trap",
-    "Melioration settles at the matching allocation (~0.8) and earns less than the optimum (~0.4) that the maximiser reaches.", "reproduced",
-    "The package's conceptual core; a basic-science choice phenomenon, not a robust applied effect.",
-    "Basic-science (not applied-robust)", "Matching law", "Matching law", "melioration", "single VI lever (Herrnstein)",
-    "Response rate rises with reinforcement rate along a hyperbola (Herrnstein's law).", "reproduced",
-    "Robust in the lab; in applied settings mainly descriptive and needs adjunct procedures (changeover delays, timers) to appear orderly, not a robust prescriptive tool.",
-    "Basic-science (not applied-robust)", "FI temporal control", "Fixed-interval (FI)", "boltzmann_td", "FI chamber (elapsed-time state)",
-    "Responding is withheld early in the interval and concentrated near/after its end (break-and-run).", "reproduced",
-    "The smoothly graded biological scallop needs temporal generalisation a tabular agent lacks.",
-    "Basic-science (not applied-robust)", "Cumulative record (steady rate)", "Variable-ratio (VR)", "melioration", "single VR / FR lever",
-    "Steady high-rate responding gives a straight, steep cumulative record.", "reproduced",
+    ~tool, ~type, ~env, ~what_it_does, ~validation, ~note,
+    "Functional analysis", "assessment", "fa_chamber / functional_analysis",
+    "Identifies the maintaining reinforcer of a target response by comparing its rate across analogue conditions (attention, escape, tangible, alone) to a play control.",
+    "Iwata 1982/1994 (Fisher Ch 13; Matson Part IV). Recovers a planted function (identified == true) for all four functions.",
+    "One scoped instrument, not a prerequisite for the other tools; ABA can proceed without assessment. Validates the FA logic with a reinforcement-driven agent, not a clinical FA, and does not map to all environments.",
+    "Extinction", "intervention", "operant chamber (reinforcement withdrawn)",
+    "Withholding the maintaining reinforcer reduces the response; behaviour acquired on leaner schedules is more resistant.",
+    "Oxford (Basic Principles); Fisher Ch 19. A necessary component of differential-reinforcement treatments.",
+    "Reproduces the contingency, not a clinical extinction procedure.",
+    "Differential reinforcement (DRA/FCT)", "intervention", "dra_chamber / dra_fct_demo",
+    "With the problem response on extinction and an alternative reinforced, behaviour reallocates to the alternative.",
+    "Carr & Durand 1985; Fisher Ch 14. Robustly replicated; one differential-reinforcement procedure, not the core mechanism.",
+    "Reproduces the contingency engine, not the clinical apparatus (no functional analysis, prompting, or programmed generalisation).",
+    "Differential reinforcement of low rates (DRL)", "intervention", "DRL chamber (IRT state)",
+    "The agent spaces responses to hold rate near 1/threshold for reinforcement.",
+    "Fisher Ch 14 (differential reinforcement of low rates). Reproduced.",
+    "Requires the inter-response-time observation."
+  )
+}
+
+#' Basic behavioural phenomena (candidate-instrument pipeline)
+#'
+#' Reproduced behavioural phenomena that are not (yet) operationalised and
+#' literature-verified into instruments. A phenomenon graduates into
+#' [aba_toolkit()] once its read-out tracks the mechanism and is verified; a
+#' look-alike curve produced for the wrong reason does not qualify.
+#'
+#' @return A tibble with `phenomenon`, `status`, `env`, `shows`, `note`.
+#' @export
+#' @examples
+#' basic_phenomena()
+basic_phenomena <- function() {
+  tibble::tribble(
+    ~phenomenon, ~status, ~env, ~shows, ~note,
+    "Matching law", "reproduced", "single VI lever (Herrnstein)",
+    "Response rate rises with reinforcement rate along a hyperbola.",
+    "Lab-robust; applied use mainly descriptive and needs adjunct procedures to appear orderly. Candidate instrument pending a validated applied read-out.",
+    "Melioration vs maximisation", "reproduced", "melioration trap",
+    "Melioration settles at the matching allocation (~0.8) and earns less than the optimum (~0.4) the maximiser reaches.",
+    "The package's original dissociation; a choice phenomenon.",
+    "Self-control / delay discounting", "reproduced", "self-control env",
+    "The far-sighted agent takes the large-later reward; the myopic agent stays impulsive.",
+    "Behavioural-economic; candidate instrument for impulsivity.",
+    "FI temporal control", "reproduced", "FI chamber (elapsed-time state)",
+    "Responding is withheld early in the interval and concentrated near its end (break-and-run).",
+    "Not promotable as-is: the tabular break-and-run is not the biological scallop.",
+    "Cumulative record (steady rate)", "reproduced", "single VR / FR lever",
+    "Steady high-rate responding gives a straight, steep cumulative record.",
     "Ratio schedules sustain near-maximal responding when reinforcement exceeds response cost.",
-    "Basic-science (not applied-robust)", "VR vs VI rate difference", "Variable-ratio (VR)", "melioration", "single VR vs VI lever",
-    "Classically VR sustains higher rates than VI.", "not reproduced",
+    "VR vs VI rate difference", "not reproduced", "single VR vs VI lever",
+    "Classically VR sustains higher rates than VI.",
     "Depends on the molar feedback function; a single-state agent cannot represent it.",
-    "Basic-science (not applied-robust)", "FR post-reinforcement pause", "Fixed-ratio (FR)", "melioration", "single FR lever",
-    "Classically a pause follows each reinforcer before the ratio is run.", "not reproduced",
-    "Pausing delays reinforcement, so a reward-maximiser does not pause; the pause is a ratio-strain quirk.",
-    "Basic-science (not applied-robust)", "Undermatching / changeover delay", "Changeover delay (COD)", "melioration", "concurrent VI-VI with COD",
-    "Changeover delays classically sharpen matching toward slope 1.", "partial",
+    "FR post-reinforcement pause", "not reproduced", "single FR lever",
+    "Classically a pause follows each reinforcer before the ratio is run.",
+    "A reward-maximiser does not pause; the pause is a ratio-strain quirk.",
+    "Changeover delay / undermatching", "partial", "concurrent VI-VI with COD",
+    "Changeover delays classically sharpen matching toward slope 1.",
     "A single-state gradient bandit does not capture the molecular switching mechanism."
   )
 }

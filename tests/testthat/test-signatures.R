@@ -30,11 +30,12 @@ test_that("fi_temporal_demo shows responding concentrated at the interval bounda
   expect_gt(late - early, 0.2)
 })
 
-test_that("behavioral_signatures has the expected structure and honest statuses", {
-  s <- behavioral_signatures()
-  expect_true(all(c("signature", "glossary_term", "agent", "paradigm", "shows", "status", "note") %in% names(s)))
-  expect_true(all(c("reproduced", "not reproduced", "partial") %in% s$status))
-  expect_true(all(s$glossary_term %in% operant_glossary()$term))
+test_that("aba_toolkit has the expected structure and functional analysis is an assessment", {
+  tk <- aba_toolkit()
+  expect_true(all(c("tool", "type", "env", "what_it_does", "validation", "note") %in% names(tk)))
+  expect_true(all(tk$type %in% c("assessment", "intervention")))
+  expect_equal(tk$type[tk$tool == "Functional analysis"], "assessment")
+  expect_true(any(grepl("Differential reinforcement", tk$tool) & tk$type == "intervention"))
 })
 
 test_that("signature plots return ggplot objects", {
@@ -51,9 +52,17 @@ test_that("dra_fct_demo reallocates from problem to alternative after treatment 
   expect_gt(treat_alt_end - base_alt, 0.5)
 })
 
-test_that("behavioral_signatures has group column with both strata and DRA/FCT in the core", {
-  s <- behavioral_signatures()
-  expect_true("group" %in% names(s))
-  expect_true(all(c("Applied-robust core", "Basic-science (not applied-robust)") %in% s$group))
-  expect_true("DRA / FCT reallocation" %in% s$signature[s$group == "Applied-robust core"])
+test_that("basic_phenomena holds reproduced and not-reproduced phenomena", {
+  ph <- basic_phenomena()
+  expect_true(all(c("phenomenon", "status", "env", "shows", "note") %in% names(ph)))
+  expect_true(all(c("reproduced", "not reproduced", "partial") %in% ph$status))
+  expect_true("Matching law" %in% ph$phenomenon)
+})
+
+test_that("functional_analysis recovers a planted maintaining function", {
+  for (f in c("attention", "escape", "tangible", "automatic")) {
+    fa <- functional_analysis(true_function = f, n_steps = 12000L, seed = 1L)
+    expect_identical(fa$identified_function, f)
+    expect_true(fa$correct)
+  }
 })

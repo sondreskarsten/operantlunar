@@ -99,9 +99,12 @@ reference:
     contents:
       - operant_glossary
       - operant_bibliography
-  - title: Behavioral signatures
+  - title: ABA toolkit and phenomena
     contents:
-      - behavioral_signatures
+      - aba_toolkit
+      - basic_phenomena
+      - fa_chamber
+      - functional_analysis
       - dra_chamber
       - dra_fct_demo
       - fi_chamber
