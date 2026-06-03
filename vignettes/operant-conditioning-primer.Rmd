@@ -1,0 +1,75 @@
+---
+title: "An operant-conditioning primer"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{An operant-conditioning primer}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(operantlunar)
+```
+
+This primer orients a newcomer to the operant-conditioning vocabulary that
+`operantlunar` is built on. Every definition below is drawn from
+`operant_glossary()` and was checked against the literature before entry; the
+sources are the bundled handbook corpus plus the original papers, listed in
+`operant_bibliography()`.
+
+## The one idea
+
+Operant conditioning studies how the **consequences** of a voluntary behaviour
+change its future probability. Thorndike's *law of effect* (1898, 1911) stated
+the seed: responses followed by satisfaction are stamped in, those followed by
+discomfort stamped out. Skinner (1938) made it functional — replacing
+"satisfaction" with **reinforcement** (anything that increases a behaviour) and
+"discomfort" with **punishment** (anything that decreases it), each defined
+purely by its effect. The unit of analysis is the **three-term contingency**:
+an antecedent signals that a behaviour will produce a consequence.
+
+The same logic is what reinforcement learning later formalised, which is why
+this package can compare *reward maximisation* (the law of effect taken to its
+optimum) against *melioration* (the rule behind the matching law) using one
+learning skeleton and swapping only the update rule.
+
+## How the vocabulary maps onto this package
+
+```{r map, echo = FALSE, results = "asis"}
+map <- tibble::tribble(
+  ~`Operant concept`, ~`In operantlunar`,
+  "Reinforcement schedule (FR/VR/FI/VI)", "`make_schedule()`, `operant_chamber()`",
+  "Concurrent schedules / choice", "`concurrent_schedule()`, `schedule_matching_table()`",
+  "Matching law", "`fit_matching_general()`, `melioration_agent()` selection",
+  "Melioration vs maximisation", "`melioration_trap()`, `differentiation_matrix()`",
+  "Extinction", "`extinction_experiment()`",
+  "Delay / self-control", "`self_control_env()`, `self_control_experiment()`",
+  "Differential reinforcement of low rates", "`drl_chamber()`, `drl_experiment()`",
+  "Reinforcer devaluation (habit vs goal)", "`devaluation_experiment()`"
+)
+knitr::kable(map)
+```
+
+## Glossary
+
+```{r glossary, echo = FALSE, results = "asis"}
+g <- operant_glossary()
+for (cat in unique(g$category)) {
+  cat("\n### ", cat, "\n\n", sep = "")
+  sub <- g[g$category == cat, c("term", "definition", "primary_source")]
+  print(knitr::kable(sub, col.names = c("Term", "Definition", "Primary source"), row.names = FALSE))
+  cat("\n")
+}
+```
+
+## Bibliography
+
+The handbook corpus is held in GCS at
+`gs://sondre_brreg_data/losore_schema_engine/aba_references/source_pdfs/`; the
+primary sources are the original papers the definitions rest on.
+
+```{r biblio, echo = FALSE, results = "asis"}
+b <- operant_bibliography()
+knitr::kable(b[, c("key", "type", "citation")], col.names = c("Key", "Type", "Citation"), row.names = FALSE)
+```

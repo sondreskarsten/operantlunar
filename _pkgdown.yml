@@ -95,6 +95,10 @@ reference:
   - title: Plots
     contents:
       - starts_with("plot_")
+  - title: Operant-conditioning primer
+    contents:
+      - operant_glossary
+      - operant_bibliography
   - title: App
     contents:
       - run_app

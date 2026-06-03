@@ -106,6 +106,23 @@ ui <- fluidPage(
       )
     ),
     tabPanel(
+      "Operant primer",
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("primer_cat", "Category", choices = c("All", sort(unique(operant_glossary()$category))), selected = "All"),
+          textInput("primer_search", "Search term / definition", ""),
+          downloadButton("primer_csv", "Download glossary CSV"),
+          helpText("A verified operant-conditioning glossary plus the bundled handbook corpus. Every definition was checked against the literature; full sources are in the bibliography.")
+        ),
+        mainPanel(
+          h4("Glossary"),
+          tableOutput("primer_glossary"),
+          h4("Bibliography (handbook corpus + primary sources)"),
+          tableOutput("primer_biblio")
+        )
+      )
+    ),
+    tabPanel(
       "LunarLander (Python)",
       sidebarLayout(
         sidebarPanel(
@@ -181,6 +198,22 @@ server <- function(input, output, session) {
   output$dm_csv <- downloadHandler(
     filename = function() "differentiation_matrix.csv",
     content = function(file) utils::write.csv(dm_res()$long, file, row.names = FALSE)
+  )
+
+  primer_data <- reactive({
+    g <- operant_glossary()
+    if (!is.null(input$primer_cat) && input$primer_cat != "All") g <- g[g$category == input$primer_cat, ]
+    q <- input$primer_search
+    if (is.null(q)) q <- ""
+    q <- trimws(tolower(q))
+    if (nzchar(q)) g <- g[grepl(q, tolower(paste(g$term, g$definition)), fixed = TRUE), ]
+    g
+  })
+  output$primer_glossary <- renderTable(primer_data()[, c("term", "category", "definition", "primary_source", "handbook")])
+  output$primer_biblio <- renderTable(operant_bibliography()[, c("key", "type", "citation")])
+  output$primer_csv <- downloadHandler(
+    filename = function() "operant_glossary.csv",
+    content = function(file) utils::write.csv(operant_glossary(), file, row.names = FALSE)
   )
 
   ll_res <- eventReactive(input$ll_run, {
