@@ -1,0 +1,100 @@
+url: ~
+
+template:
+  bootstrap: 5
+
+reference:
+  - title: Learning skeleton
+    contents:
+      - make_table
+      - table_get
+      - run_episode
+      - run_training
+      - evaluate_policy
+      - run_continuing
+  - title: Learning rules
+    contents:
+      - softmax
+      - td_agent
+      - expected_sarsa_agent
+      - boltzmann_td_agent
+      - sarsa_agent
+      - double_q_agent
+      - actor_critic_agent
+      - model_based_agent
+      - melioration_agent
+      - melioration_rate_agent
+      - win_stay_lose_shift_agent
+      - bush_mosteller_step
+      - agent_registry
+      - make_agent
+      - agent_kind
+  - title: Featurizers
+    contents:
+      - lunar_featurizer
+      - interval_featurizer
+      - constant_featurizer
+      - discrete_featurizer
+      - make_bin_edges
+  - title: Operant paradigms
+    contents:
+      - make_schedule
+      - operant_chamber
+      - concurrent_schedule
+      - concurrent_schedule_cod
+      - melioration_trap
+      - prob_matching_task
+      - self_control_env
+      - drl_chamber
+      - progressive_ratio
+      - risk_env
+      - devaluation_env
+  - title: Experiments
+    contents:
+      - melioration_trap_experiment
+      - schedule_matching_table
+      - fit_matching_general
+      - extinction_experiment
+      - operant_battery
+      - prob_matching_experiment
+      - self_control_experiment
+      - drl_experiment
+      - progressive_ratio_experiment
+      - risk_experiment
+      - devaluation_experiment
+      - changeover_delay_demo
+      - herrnstein_experiment
+  - title: Analysis
+    contents:
+      - value_of_policy
+      - regret
+      - classify_rule
+      - matching_sensitivity_bias
+      - fit_herrnstein_hyperbola
+      - fit_discounting
+      - differentiation_matrix
+  - title: Function approximation
+    contents:
+      - gym_bounds
+      - tile_coder
+      - linear_sarsa_agent
+      - linear_melioration_agent
+      - run_episode_linear
+      - run_training_linear
+      - evaluate_policy_linear
+      - differentiate_fa
+  - title: Gymnasium
+    contents:
+      - lunar_setup
+      - make_lunar
+      - make_gym
+      - collect_states
+      - policy_divergence
+      - differentiate
+      - differentiate_gym
+  - title: Plots
+    contents:
+      - starts_with("plot_")
+  - title: App
+    contents:
+      - run_app

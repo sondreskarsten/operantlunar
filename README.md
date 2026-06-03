@@ -76,3 +76,33 @@ Four tabs: melioration trap, schedule matching, extinction, and LunarLander. Dep
 ## License
 
 MIT © 2026 Sondre Skarsten
+
+## New in 0.2.0
+
+The instrument expanded from one dissociation to a battery, and from tabular to function approximation.
+
+**More rules** — `sarsa_agent`, `double_q_agent`, `actor_critic_agent`, `model_based_agent` (goal-directed planner), `melioration_rate_agent` (Herrnstein-Vaughan rate tracking), `win_stay_lose_shift_agent`. Build any rule for any paradigm with `make_agent(name, n_actions, horizon)`; label it with `agent_kind()`.
+
+**More paradigms** — each isolates one failure mode of myopic control:
+
+| Paradigm | Function | Catches |
+|---|---|---|
+| Probability matching | `prob_matching_experiment()` | rate-tracking melioration (matches instead of going exclusive) |
+| Self-control | `self_control_experiment()` | gradient-bandit melioration (impulsive: small-sooner) |
+| DRL | `drl_experiment()` | persistently-stochastic rules (cannot space responses) |
+| Reinforcer devaluation | `devaluation_experiment()` | model-free / melioration (persist after devaluation) |
+| Progressive ratio | `progressive_ratio_experiment()` | breakpoint differences |
+| Risk sensitivity | `risk_experiment()` | variance attitude at matched means |
+| Changeover delay | `changeover_delay_demo()` | concurrent-schedule switching cost |
+
+**Analysis** — `fit_herrnstein_hyperbola()`, `herrnstein_experiment()`, `fit_discounting()`, `matching_sensitivity_bias()` (bootstrap CIs), `value_of_policy()`, `regret()`, `classify_rule()`, and the capstone `differentiation_matrix()` (every rule × every paradigm → maximize score) with `plot_differentiation_matrix()`.
+
+```r
+dm <- differentiation_matrix()        # rules x paradigms maximize-score matrix
+plot_differentiation_matrix(dm)       # heatmap
+dm$classification                     # maximizer / intermediate / matching per rule
+```
+
+**Function approximation** — hashed `tile_coder()`, `gym_bounds()`, `linear_sarsa_agent()` / `linear_melioration_agent()`, linear runners, and `differentiate_fa()`. This removes the tabular-binning constraint on the LunarLander comparison. `make_gym()` is a generic Gymnasium adapter; `differentiate_gym()` runs tabular rules on FrozenLake and friends.
+
+Headline differentiators (robust): the **melioration trap** and **self-control** catch gradient-bandit melioration; **probability matching** catches rate-tracking melioration. Progressive ratio, risk, and changeover delay are provided as capabilities and reported honestly as weaker or implementation-dependent.

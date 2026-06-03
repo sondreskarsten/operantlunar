@@ -1,15 +1,22 @@
 Package: operantlunar
 Title: Differentiating Reward Maximization from Melioration via Operant Conditioning
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: person("Sondre", "Skarsten", email = "sondreskarsten@gmail.com", role = c("aut", "cre"))
 Author: Sondre Skarsten [aut, cre]
 Maintainer: Sondre Skarsten <sondreskarsten@gmail.com>
 Description: A tabular reinforcement-learning instrument that mechanistically
     differentiates reward-maximizing control (the law of effect) from descriptive
-    melioration (the matching law). Provides a shared learning skeleton, a battery
-    of operant levers (schedule family, melioration trap, extinction), several
-    learning rules, a generalized matching-law fit, an optional Python LunarLander
-    environment via reticulate, and a bundled Shiny app.
+    melioration (the matching law). Provides a shared learning skeleton; a library
+    of learning rules (Q-learning, SARSA, expected SARSA, double Q-learning,
+    actor-critic, a model-based planner, gradient-bandit and rate-tracking
+    melioration, win-stay-lose-shift); a battery of operant paradigms (schedule
+    family, melioration trap, extinction, probability matching, self-control /
+    delay discounting, differential reinforcement of low rates, progressive ratio,
+    risk sensitivity, reinforcer devaluation, changeover-delay concurrent
+    schedules); an analysis layer with generalized-matching, Herrnstein-hyperbola
+    and discounting fits and a differentiation-matrix capstone; hashed tile coding
+    with linear function-approximation agents and a generic Gymnasium adapter; an
+    optional Python LunarLander environment via reticulate; and a bundled Shiny app.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -24,5 +31,8 @@ Imports:
     utils,
     shiny
 Suggests:
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
 Config/testthat/edition: 3
