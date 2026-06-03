@@ -41,3 +41,19 @@ test_that("signature plots return ggplot objects", {
   cr <- cumulative_record(c(1, 1, 2, 1), c(1, 0, 0, 1))
   expect_s3_class(plot_cumulative_record(cr), "ggplot")
 })
+
+test_that("dra_fct_demo reallocates from problem to alternative after treatment onset", {
+  d <- dra_fct_demo(baseline = 3000L, treatment = 6000L, window = 300L, seed = 1L)
+  sw <- d$switch_step[1]
+  alt <- d[d$response == "alternative", ]
+  base_alt <- mean(alt$rate[alt$window_mid <= sw])
+  treat_alt_end <- tail(alt$rate[alt$window_mid > sw], 1)
+  expect_gt(treat_alt_end - base_alt, 0.5)
+})
+
+test_that("behavioral_signatures has group column with both strata and DRA/FCT in the core", {
+  s <- behavioral_signatures()
+  expect_true("group" %in% names(s))
+  expect_true(all(c("Applied-robust core", "Basic-science (not applied-robust)") %in% s$group))
+  expect_true("DRA / FCT reallocation" %in% s$signature[s$group == "Applied-robust core"])
+})

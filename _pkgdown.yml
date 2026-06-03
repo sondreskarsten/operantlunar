@@ -102,6 +102,8 @@ reference:
   - title: Behavioral signatures
     contents:
       - behavioral_signatures
+      - dra_chamber
+      - dra_fct_demo
       - fi_chamber
       - cumulative_record
       - schedule_record_demo

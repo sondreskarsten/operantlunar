@@ -110,7 +110,16 @@ operant_glossary <- function() {
     "Skinner (1938)", "Fisher, Piazza & Roane 2021; McSweeney & Murphy 2014",
     "Superstitious behaviour", "Extinction and change",
     "Behaviour strengthened by accidental (non-contingent) reinforcement that happens to follow it, despite no causal relation, as in Skinner's pigeon demonstration.",
-    "Skinner (1948)", "McSweeney & Murphy 2014; Bouton 2007"
+    "Skinner (1948)", "McSweeney & Murphy 2014; Bouton 2007",
+    "Functional analysis", "Function-based intervention",
+    "Systematically manipulating contingencies (attention, escape, tangible, alone) to identify the reinforcer maintaining a behaviour, so treatment can target that function.",
+    "Fisher, Piazza & Roane 2021 (Ch 13)", "Fisher, Piazza & Roane 2021",
+    "Differential reinforcement of alternative behaviour (DRA)", "Function-based intervention",
+    "Reinforcing an appropriate, functionally equivalent response while withholding reinforcement (extinction) for the problem response it replaces.",
+    "Fisher, Piazza & Roane 2021 (Ch 14)", "Fisher, Piazza & Roane 2021",
+    "Functional communication training (FCT)", "Function-based intervention",
+    "A DRA procedure that teaches a communicative response to access the reinforcer maintaining problem behaviour; among the most robustly replicated applied interventions, with extinction a necessary component.",
+    "Carr & Durand (1985)", "Fisher, Piazza & Roane 2021"
   )
 }
 
@@ -174,6 +183,9 @@ operant_bibliography <- function() {
     NA_character_,
     "Vaughan 1981", "primary",
     "Vaughan, W. (1981). Melioration, matching, and maximization. Journal of the Experimental Analysis of Behavior, 36, 141-149.",
+    NA_character_,
+    "Carr & Durand 1985", "primary",
+    "Carr, E. G., & Durand, V. M. (1985). Reducing behavior problems through functional communication training. Journal of Applied Behavior Analysis, 18, 111-126.",
     NA_character_
   )
 }

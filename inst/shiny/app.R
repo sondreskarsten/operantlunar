@@ -239,6 +239,7 @@ server <- function(input, output, session) {
     g <- operant_glossary()
     def <- g$definition[match(row$glossary_term, g$term)]
     HTML(paste0(
+      "<b>Group:</b> ", row$group, "<br/>",
       "<b>Glossary term:</b> ", row$glossary_term, "<br/><i>",
       if (length(def) == 0 || is.na(def)) "" else def, "</i><br/><br/>",
       "<b>Agent / paradigm:</b> ", row$agent, " on ", row$paradigm, "<br/>",
@@ -248,6 +249,7 @@ server <- function(input, output, session) {
   })
   sig_plot_obj <- eventReactive(input$sig_run, {
     switch(input$sig_pick,
+      "DRA / FCT reallocation" = plot_dra_fct(dra_fct_demo(baseline = 4000L, treatment = 8000L)),
       "Matching law" = {
         d_h <- herrnstein_experiment(n_steps = 8000L)
         plot_herrnstein(d_h, fit_herrnstein_hyperbola(d_h$reinforcement_rate, d_h$response_rate))

@@ -132,35 +132,38 @@ fi_temporal_demo <- function(interval = 20, beta = 6, alpha = 0.1, gamma = 0.99,
 #' behavioral_signatures()
 behavioral_signatures <- function() {
   tibble::tribble(
-    ~signature, ~glossary_term, ~agent, ~paradigm, ~shows, ~status, ~note,
-    "Matching law", "Matching law", "melioration", "single VI lever (Herrnstein)",
-    "Response rate rises with reinforcement rate along a hyperbola (Herrnstein's law).", "reproduced",
-    "Single-alternative form; on concurrent VI-VI the melioration agent also matches.",
-    "Melioration vs maximisation", "Maximisation vs melioration", "melioration vs q_learning", "melioration trap",
-    "Melioration settles at the matching allocation (~0.8) and earns less than the optimum (~0.4) that the maximiser reaches.", "reproduced",
-    "The core dissociation the package was built to show.",
-    "Extinction", "Extinction", "q_learning", "operant chamber, reinforcement withdrawn",
+    ~group, ~signature, ~glossary_term, ~agent, ~paradigm, ~shows, ~status, ~note,
+    "Applied-robust core", "DRA / FCT reallocation", "Differential reinforcement of alternative behaviour (DRA)", "q_learning", "DRA chamber (baseline then treatment)",
+    "When the problem response is put on extinction and an alternative is reinforced, behaviour reallocates from the problem response to the alternative.", "reproduced",
+    "The contingency engine under DRA/FCT, the most robustly replicated applied effect. Reproduces the reallocation mechanism, not the clinical apparatus (no functional analysis, prompting, or programmed generalisation).",
+    "Applied-robust core", "Extinction", "Extinction", "q_learning", "operant chamber, reinforcement withdrawn",
     "Responding declines once reinforcement stops; behaviour acquired on leaner schedules is more resistant.", "reproduced",
-    "Partial-reinforcement extinction effect visible across acquisition schedules.",
-    "DRL (low-rate spacing)", "Variable-interval (VI)", "q_learning", "DRL chamber (IRT state)",
+    "Extinction is a necessary component of DRA/FCT; the partial-reinforcement extinction effect is visible across acquisition schedules.",
+    "Applied-robust core", "DRL (low-rate spacing)", "Variable-interval (VI)", "q_learning", "DRL chamber (IRT state)",
     "The agent learns to space responses, holding rate near 1/threshold to earn reinforcement.", "reproduced",
-    "Requires the inter-response-time observation.",
-    "Self-control / delay discounting", "Operant conditioning", "q_learning vs melioration", "self-control env",
+    "Requires the inter-response-time observation. Maps to clinical DRL for high-rate behaviour.",
+    "Applied-robust core", "Self-control / delay discounting", "Operant conditioning", "q_learning vs melioration", "self-control env",
     "The far-sighted agent chooses the large-later reward; the myopic agent stays impulsive.", "reproduced",
-    "Model-based and Q-learning are self-controlled; gradient-bandit melioration is impulsive.",
-    "FI temporal control", "Fixed-interval (FI)", "boltzmann_td", "FI chamber (elapsed-time state)",
+    "Model-based and Q-learning are self-controlled; gradient-bandit melioration is impulsive. Behavioural-economic, increasingly applied.",
+    "Basic-science (not applied-robust)", "Melioration vs maximisation", "Maximisation vs melioration", "melioration vs q_learning", "melioration trap",
+    "Melioration settles at the matching allocation (~0.8) and earns less than the optimum (~0.4) that the maximiser reaches.", "reproduced",
+    "The package's conceptual core; a basic-science choice phenomenon, not a robust applied effect.",
+    "Basic-science (not applied-robust)", "Matching law", "Matching law", "melioration", "single VI lever (Herrnstein)",
+    "Response rate rises with reinforcement rate along a hyperbola (Herrnstein's law).", "reproduced",
+    "Robust in the lab; in applied settings mainly descriptive and needs adjunct procedures (changeover delays, timers) to appear orderly, not a robust prescriptive tool.",
+    "Basic-science (not applied-robust)", "FI temporal control", "Fixed-interval (FI)", "boltzmann_td", "FI chamber (elapsed-time state)",
     "Responding is withheld early in the interval and concentrated near/after its end (break-and-run).", "reproduced",
     "The smoothly graded biological scallop needs temporal generalisation a tabular agent lacks.",
-    "Cumulative record (steady rate)", "Variable-ratio (VR)", "melioration", "single VR / FR lever",
+    "Basic-science (not applied-robust)", "Cumulative record (steady rate)", "Variable-ratio (VR)", "melioration", "single VR / FR lever",
     "Steady high-rate responding gives a straight, steep cumulative record.", "reproduced",
     "Ratio schedules sustain near-maximal responding when reinforcement exceeds response cost.",
-    "VR vs VI rate difference", "Variable-ratio (VR)", "melioration", "single VR vs VI lever",
+    "Basic-science (not applied-robust)", "VR vs VI rate difference", "Variable-ratio (VR)", "melioration", "single VR vs VI lever",
     "Classically VR sustains higher rates than VI.", "not reproduced",
     "Depends on the molar feedback function; a single-state agent cannot represent it.",
-    "FR post-reinforcement pause", "Fixed-ratio (FR)", "melioration", "single FR lever",
+    "Basic-science (not applied-robust)", "FR post-reinforcement pause", "Fixed-ratio (FR)", "melioration", "single FR lever",
     "Classically a pause follows each reinforcer before the ratio is run.", "not reproduced",
     "Pausing delays reinforcement, so a reward-maximiser does not pause; the pause is a ratio-strain quirk.",
-    "Undermatching / changeover delay", "Changeover delay (COD)", "melioration", "concurrent VI-VI with COD",
+    "Basic-science (not applied-robust)", "Undermatching / changeover delay", "Changeover delay (COD)", "melioration", "concurrent VI-VI with COD",
     "Changeover delays classically sharpen matching toward slope 1.", "partial",
     "A single-state gradient bandit does not capture the molecular switching mechanism."
   )
@@ -196,6 +199,107 @@ plot_fi_temporal <- function(demo) {
     ggplot2::geom_point(colour = "#3b7dd8") +
     ggplot2::geom_vline(xintercept = demo$interval, linetype = "dashed", colour = "darkgreen") +
     ggplot2::labs(x = "time since last reinforcer (steps)", y = "P(respond)", title = "Fixed-interval temporal control") +
+    ggplot2::ylim(0, 1) +
+    ggplot2::theme_minimal()
+}
+
+#' Differential-reinforcement (DRA/FCT) chamber
+#'
+#' Two responses share one maintaining reinforcer. Action 1 is the problem
+#' response, action 2 the appropriate alternative. `set_reinforced()` switches
+#' which response currently produces the reinforcer, so a baseline (problem
+#' reinforced) can be followed by treatment (alternative reinforced, problem on
+#' extinction) — the contingency engine under DRA and functional communication
+#' training.
+#'
+#' @param magnitude Reinforcement magnitude.
+#' @param response_cost Cost per response.
+#' @return An environment object with `reset`, `step`, and `set_reinforced`.
+#' @export
+#' @examples
+#' ch <- dra_chamber()
+#' ch$reset(seed = 0)
+#' ch$step(1)
+dra_chamber <- function(magnitude = 1, response_cost = 0) {
+  st <- new.env(parent = emptyenv())
+  st$reinforced <- 1L
+  reset <- function(seed = NULL) {
+    if (!is.null(seed)) set.seed(seed)
+    list(obs = 0)
+  }
+  step <- function(action) {
+    r <- if (action == st$reinforced) magnitude else 0
+    r <- r - response_cost
+    list(obs = 0, reward = r, terminated = FALSE, truncated = FALSE)
+  }
+  set_reinforced <- function(which) st$reinforced <- as.integer(which)
+  list(reset = reset, step = step, set_reinforced = set_reinforced)
+}
+
+#' DRA / FCT reallocation demonstration
+#'
+#' Trains a reward-driven agent on [dra_chamber()] through a baseline phase (the
+#' problem response is reinforced) and a treatment phase (the problem response is
+#' put on extinction and an alternative response is reinforced), then summarises
+#' the proportion of each response over time. Behaviour reallocates from the
+#' problem to the alternative — the mechanism behind differential reinforcement
+#' of an alternative behaviour.
+#'
+#' @param baseline,treatment Steps per phase.
+#' @param agent Registry key for the agent.
+#' @param magnitude Reinforcement magnitude.
+#' @param window Window length for the proportion summary.
+#' @param seed Seed.
+#' @return A tibble with `window_mid`, `response`, `rate`, `switch_step`.
+#' @export
+#' @examples
+#' \donttest{
+#' dra_fct_demo()
+#' }
+dra_fct_demo <- function(baseline = 4000L, treatment = 8000L, agent = "q_learning", magnitude = 1, window = 300L, seed = 0L) {
+  set.seed(seed)
+  ag <- make_agent(agent, n_actions = 2L, horizon = baseline + treatment)
+  env <- dra_chamber(magnitude = magnitude)
+  feat <- constant_featurizer()
+  tbl <- make_table(2L)
+  n <- baseline + treatment
+  acts <- integer(n)
+  r0 <- env$reset(seed = seed)
+  s <- feat(r0$obs)
+  env$set_reinforced(1L)
+  for (i in seq_len(n)) {
+    if (i == baseline + 1L) env$set_reinforced(2L)
+    a <- ag$select(tbl, s)
+    o <- env$step(a)
+    s2 <- feat(o$obs)
+    ag$update(tbl, s, a, o$reward, s2, FALSE)
+    acts[i] <- a
+    s <- s2
+  }
+  g <- (seq_len(n) - 1L) %/% as.integer(window)
+  mid <- tapply(seq_len(n), g, mean)
+  prob <- tapply(as.integer(acts == 1L), g, mean)
+  alt <- tapply(as.integer(acts == 2L), g, mean)
+  tibble::tibble(
+    window_mid = rep(as.numeric(mid), 2),
+    response = rep(c("problem", "alternative"), each = length(mid)),
+    rate = c(as.numeric(prob), as.numeric(alt)),
+    switch_step = baseline
+  )
+}
+
+#' Plot DRA / FCT reallocation
+#'
+#' @param demo Output of [dra_fct_demo()].
+#' @return A ggplot object.
+#' @export
+plot_dra_fct <- function(demo) {
+  ggplot2::ggplot(demo, ggplot2::aes(window_mid, rate, colour = response)) +
+    ggplot2::geom_line() +
+    ggplot2::geom_point(size = 1) +
+    ggplot2::geom_vline(xintercept = demo$switch_step[1], linetype = "dashed", colour = "darkgreen") +
+    ggplot2::scale_colour_manual(values = c(problem = "firebrick", alternative = "#3b7dd8")) +
+    ggplot2::labs(x = "step", y = "response proportion", colour = NULL, title = "DRA / FCT: reallocation from problem to alternative (dashed = treatment onset)") +
     ggplot2::ylim(0, 1) +
     ggplot2::theme_minimal()
 }
