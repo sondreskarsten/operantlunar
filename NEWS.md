@@ -1,5 +1,27 @@
 # operantlunar 0.2.0
 
+## Operant-conditioning primer
+
+* `operant_glossary()` and `operant_bibliography()` provide a verified beginner's
+  glossary of operant-conditioning concepts and the bundled handbook corpus,
+  with a companion "An operant-conditioning primer" vignette and an **Operant
+  primer** dashboard tab.
+
+## Behavioral signatures
+
+* `behavioral_signatures()` maps each glossary phenomenon to the agent and
+  paradigm that demonstrate it in the agents' own behaviour, with honest status
+  flags for signatures a reward-driven, single-state agent cannot reproduce
+  (VR-vs-VI rate, FR post-reinforcement pause, the molecular changeover-delay
+  mechanism).
+* `fi_chamber()` exposes elapsed time as the observation so a value agent brings
+  responding under temporal control; `fi_temporal_demo()` summarises the
+  resulting break-and-run.
+* `cumulative_record()` / `schedule_record_demo()` build the canonical cumulative
+  record; `plot_cumulative_record()` and `plot_fi_temporal()` plot the new views.
+* A **Behavioral signatures** dashboard tab runs the demonstrating agent live per
+  phenomenon and shows its glossary definition alongside an honest status.
+
 ## New learning rules
 
 * `sarsa_agent()`, `double_q_agent()`, `actor_critic_agent()`, `model_based_agent()`,

@@ -99,6 +99,13 @@ reference:
     contents:
       - operant_glossary
       - operant_bibliography
+  - title: Behavioral signatures
+    contents:
+      - behavioral_signatures
+      - fi_chamber
+      - cumulative_record
+      - schedule_record_demo
+      - fi_temporal_demo
   - title: App
     contents:
       - run_app

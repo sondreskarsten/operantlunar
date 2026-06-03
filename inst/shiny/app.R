@@ -123,6 +123,20 @@ ui <- fluidPage(
       )
     ),
     tabPanel(
+      "Behavioral signatures",
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("sig_pick", "Phenomenon", choices = behavioral_signatures()$signature),
+          actionButton("sig_run", "Run demonstration"),
+          helpText("Each glossary phenomenon shown in the agents' own behaviour. Reward-driven agents reproduce reward-rational signatures; quirks needing temporal generalisation, molar feedback, or non-optimal pausing are flagged honestly in the status.")
+        ),
+        mainPanel(
+          htmlOutput("sig_info"),
+          plotOutput("sig_plot")
+        )
+      )
+    ),
+    tabPanel(
       "LunarLander (Python)",
       sidebarLayout(
         sidebarPanel(
@@ -215,6 +229,45 @@ server <- function(input, output, session) {
     filename = function() "operant_glossary.csv",
     content = function(file) utils::write.csv(operant_glossary(), file, row.names = FALSE)
   )
+
+  sig_row <- reactive({
+    s <- behavioral_signatures()
+    s[s$signature == input$sig_pick, ]
+  })
+  output$sig_info <- renderUI({
+    row <- sig_row()
+    g <- operant_glossary()
+    def <- g$definition[match(row$glossary_term, g$term)]
+    HTML(paste0(
+      "<b>Glossary term:</b> ", row$glossary_term, "<br/><i>",
+      if (length(def) == 0 || is.na(def)) "" else def, "</i><br/><br/>",
+      "<b>Agent / paradigm:</b> ", row$agent, " on ", row$paradigm, "<br/>",
+      "<b>Shows:</b> ", row$shows, "<br/>",
+      "<b>Status:</b> ", row$status, " &mdash; ", row$note
+    ))
+  })
+  sig_plot_obj <- eventReactive(input$sig_run, {
+    switch(input$sig_pick,
+      "Matching law" = plot_herrnstein(herrnstein_experiment(n_steps = 6000L)),
+      "Melioration vs maximisation" = plot_trap(melioration_trap_experiment(n_steps = 12000L)),
+      "Extinction" = plot_extinction(extinction_experiment(acquire_steps = 6000L, extinction_steps = 6000L)),
+      "DRL (low-rate spacing)" = plot_drl(drl_experiment(n_steps = 20000L)),
+      "Self-control / delay discounting" = plot_self_control(self_control_experiment(n_steps = 20000L)),
+      "FI temporal control" = plot_fi_temporal(fi_temporal_demo(n_steps = 24000L)),
+      "Cumulative record (steady rate)" = plot_cumulative_record(schedule_record_demo("VR", 10, n_steps = 4000L), "Cumulative record \u2014 VR (steady high rate)"),
+      "VR vs VI rate difference" = plot_cumulative_record(schedule_record_demo("VI", 20, n_steps = 4000L), "Cumulative record \u2014 VI (single-state agent: ~VR rate)"),
+      "FR post-reinforcement pause" = plot_cumulative_record(schedule_record_demo("FR", 10, n_steps = 4000L), "Cumulative record \u2014 FR (no post-reinforcement pause)"),
+      "Undermatching / changeover delay" = {
+        cd <- changeover_delay_demo(n_steps = 8000L)
+        ggplot2::ggplot(cd, ggplot2::aes(factor(cod), slope)) +
+          ggplot2::geom_col(fill = "#3b7dd8") +
+          ggplot2::geom_hline(yintercept = 1, linetype = "dashed", colour = "darkgreen") +
+          ggplot2::labs(x = "changeover delay (steps)", y = "matching slope", title = "Matching slope by COD") +
+          ggplot2::theme_minimal()
+      }
+    )
+  })
+  output$sig_plot <- renderPlot(sig_plot_obj())
 
   ll_res <- eventReactive(input$ll_run, {
     lunar_setup()
