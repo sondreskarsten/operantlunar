@@ -1,3 +1,12 @@
+# operantlunar 0.3.0
+
+## ABA as a methodological protocol
+
+* The toolkit is reframed from a relabelling of reinforcement learning into a parameter-fixed methodological protocol that makes behavioural conclusions about an agent invariant to researcher degrees of freedom (step budget, seeds, run-collapse rule). The frozen decision rules are grounded in the applied-behaviour-analysis literature: steady-state reading takes the mean of the last stabilised sessions after a minimum exposure (McSweeney & Murphy, 2014), and differentiation uses the criterion-line rule (Hagopian et al., 1997; Fisher et al., 2021) — upper and lower criterion lines at the control mean plus or minus one standard deviation, a condition differentiated when points above minus points below is at least half the data points — replacing subjective visual analysis.
+* `fa_stochastic_env()` adds within-condition stochasticity so replication across subjects is non-vacuous. `stability_reached()` is the endogenous steady-state stopping rule and `criterion_line_verdict()` the frozen quantitative decision. `fa_subject()` runs one multielement subject trained to steady state; `functional_analysis_replicated()` replicates subjects to a reliability conclusion without pooling response rates across subjects, keeping the analysis idiographic.
+* `procedural_gridworld()` is a navigation substrate whose layout is fixed by `env_seed` (the apparatus, a setting variable) and distinct from the agent's seed (the subject); `fa_subject_gridworld()` runs functional analysis on it. Because navigation is slow to learn, under-training is a real source of unreliable conclusions.
+* `convergence_demo()` and `convergence_demo_gridworld()` are the headline demonstration: an ad hoc pipeline with an arbitrary step and seed budget reaches a budget-dependent conclusion, while the protocol's steady-state stopping and replication return an invariant verdict with residual variability quantified. `reversal_probe()` tests contingency sensitivity by reversing the maintaining condition and checking that behaviour tracks; `env_vs_agent_demo()` separates apparatus from subject on the gridworld; `plot_convergence()` visualises the asymmetry.
+
 # operantlunar 0.2.0
 
 ## Operant-conditioning primer
