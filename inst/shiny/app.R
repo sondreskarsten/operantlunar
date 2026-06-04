@@ -165,6 +165,22 @@ ui <- fluidPage(
           plotOutput("gym_plot")
         )
       )
+    ),
+    tabPanel(
+      "Protocol value-add (RDoF)",
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("proto_demo", "Conclusion to stress-test", choices = c("Is it solved?", "Which policy is best?")),
+          sliderInput("proto_seed", "Policy (training seed) for 'solved?'", min = 0, max = 3, value = 0, step = 1),
+          actionButton("proto_run", "Run"),
+          helpText("The methodological protocol on real LunarLander returns. A short ad hoc evaluation gives a budget- and terrain-dependent verdict; the protocol reads a steady-state estimate against a frozen rule and reports an invariant verdict with a bootstrap confidence. The table shows the training-seed lottery. Python-free: uses the bundled returns.")
+        ),
+        mainPanel(
+          plotOutput("proto_plot"),
+          verbatimTextOutput("proto_text"),
+          tableOutput("proto_reliability")
+        )
+      )
     )
   )
 )
@@ -319,6 +335,22 @@ server <- function(input, output, session) {
     cat(sprintf("Argmax agreement: %.2f\n", r$policy_divergence$argmax_agreement))
     cat(sprintf("States compared: %d\n", r$n_states_compared))
   })
+  proto_res <- eventReactive(input$proto_run, {
+    if (input$proto_demo == "Is it solved?") {
+      d <- lunar_solved_convergence(policy_seed = as.integer(input$proto_seed))
+      list(plot = plot_lunar_convergence(d),
+           text = sprintf("Is policy (seed %d) solved?\nProtocol: %s (settled estimate %.1f; bootstrap P(mean>=200) = %.2f)\nAd hoc verdicts across budgets and pools: %d distinct",
+                          as.integer(input$proto_seed), d$protocol_verdict, d$protocol_estimate, d$bootstrap_solved_fraction, d$adhoc_distinct))
+    } else {
+      d <- lunar_best_policy_convergence(policy_a = 0L, policy_b = 1L)
+      list(plot = plot_lunar_convergence(d),
+           text = sprintf("Which of seed 0 and seed 1 is best?\nProtocol: %s (settled estimates %.1f vs %.1f)\nAd hoc winners across budgets and pools: %d distinct",
+                          d$protocol_verdict, d$estimate_a, d$estimate_b, d$adhoc_distinct))
+    }
+  })
+  output$proto_plot <- renderPlot(proto_res()$plot)
+  output$proto_text <- renderPrint(cat(proto_res()$text))
+  output$proto_reliability <- renderTable(lunar_training_reliability()$per_seed)
 }
 
 shinyApp(ui, server)

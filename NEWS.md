@@ -1,3 +1,8 @@
+# operantlunar 0.4.1
+
+* New vignette "ABA as a methodological protocol for reinforcement learning" articulating the headline: the protocol makes behavioural conclusions about an agent invariant to researcher degrees of freedom, tying together the functional-analysis convergence demonstration and the LunarLander value-add.
+* The Shiny app (`run_app()`) gains a "Protocol value-add (RDoF)" tab that stress-tests the "is it solved?" and "which policy is best?" conclusions on the bundled LunarLander returns, contrasting the budget-dependent ad hoc verdict with the invariant protocol verdict and its bootstrap confidence, alongside the training-seed reliability table. Python-free.
+
 # operantlunar 0.4.0
 
 ## LunarLander: the protocol as a value-add on a real control task
