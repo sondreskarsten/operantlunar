@@ -70,6 +70,7 @@ reference:
       - regret
       - classify_rule
       - matching_sensitivity_bias
+      - fit_generalized_matching
       - fit_herrnstein_hyperbola
       - fit_discounting
       - differentiation_matrix
@@ -145,6 +146,12 @@ reference:
       - gym_dra
       - gym_extinction
       - aba_gym_mapping
+  - title: Schedules and helpers
+    contents:
+      - schedules_family
+      - concurrent_vi
+      - run_matching
+      - lunar_low
   - title: App
     contents:
       - run_app
