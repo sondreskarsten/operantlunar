@@ -35,7 +35,10 @@ A tibble with one row per acquisition schedule.
 }
 \description{
 Acquires responding under three schedules, then withholds reinforcement and
-measures resistance to extinction.
+measures resistance to extinction. In this value-tracking agent resistance is
+greatest under continuous reinforcement, the reverse of the partial-reinforcement
+extinction effect: continuous reinforcement builds the highest action value and
+so decays slowest once reinforcement stops.
 }
 \examples{
 \donttest{

@@ -1,3 +1,8 @@
+# operantlunar 0.4.5
+
+* Corrected the Extinction entry in `aba_toolkit()`: it previously stated that behaviour acquired on leaner schedules is more resistant to extinction (the partial-reinforcement extinction effect), but `extinction_experiment()` empirically shows the reverse for this value-tracking agent -- continuous reinforcement builds the highest action value and is slowest to extinguish. The entry and `extinction_experiment()`'s documentation now describe the actual ordering and note that PREE, a generalisation-decrement phenomenon, is not reproduced.
+* Extended the package Description to cover the ABA-on-Gymnasium framings and the methodological protocol (with the verified LunarLander solve) alongside the maximization-vs-melioration core.
+
 # operantlunar 0.4.4
 
 * The bundled LunarLander returns now include a PPO training-seed lottery: four PPO policies (seeds 99-102) trained to a common 620k-step budget by clean chunked resume, all of which solve (true means about 243, 219, 238, 242). PPO's seed lottery therefore governs solve quality rather than solve-or-fail, a milder lottery than DQN's (seeds 2-3 fail outright) — with the caveat that the two algorithms are trained to different budgets, so this contrasts each algorithm's lottery at its own near-solve budget. `lunar_training_reliability()` now reports four of eight policies solved.
