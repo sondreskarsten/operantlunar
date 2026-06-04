@@ -1,3 +1,7 @@
+# operantlunar 0.4.3
+
+* README is now generated from `README.Rmd` and covers the full package: the maximization-vs-melioration core, the ABA-on-Gymnasium framings, and the methodological protocol with the LunarLander value-add, with a hero figure and live examples. A package-level help page (`?operantlunar`), a function-family navigation table, and pkgdown reference groups for the protocol and the LunarLander value-add improve discoverability. DESCRIPTION gains URL and BugReports.
+
 # operantlunar 0.4.2
 
 * A verified LunarLander-v3 solve is now bundled. A PPO policy (policy seed 99 in the returns) reaches a true mean of about 243 over 200 terrains, clearing the canonical 200 threshold with far lower variance than the DQN policies. The solve was reached by chunked resume, which PPO supports cleanly because it has no replay buffer, unlike the DQN warm-restart that degraded under resume. `lunar_training_reliability()` now identifies exactly one of five policies as solved, and the solved policy supplies a clear-winner case for `lunar_best_policy_convergence()` to complement the indistinguishable case. The protocol's separating power remains concentrated near the threshold: for a clearly solved policy the ad hoc and protocol verdicts agree, which is the correct behaviour.

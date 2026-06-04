@@ -1,4 +1,4 @@
-url: ~
+url: https://sondreskarsten.github.io/operantlunar/
 
 template:
   bootstrap: 5
@@ -92,6 +92,30 @@ reference:
       - policy_divergence
       - differentiate
       - differentiate_gym
+  - title: Methodological protocol
+    contents:
+      - stability_reached
+      - criterion_line_verdict
+      - fa_stochastic_env
+      - fa_subject
+      - functional_analysis_replicated
+      - adhoc_fa
+      - convergence_demo
+      - reversal_probe
+      - env_vs_agent_demo
+      - procedural_gridworld
+      - fa_subject_gridworld
+      - functional_analysis_replicated_gridworld
+      - convergence_demo_gridworld
+  - title: LunarLander value-add
+    contents:
+      - lunar_returns
+      - lunar_steady_state_return
+      - lunar_adhoc_solved
+      - lunar_protocol_solved
+      - lunar_solved_convergence
+      - lunar_best_policy_convergence
+      - lunar_training_reliability
   - title: Plots
     contents:
       - starts_with("plot_")

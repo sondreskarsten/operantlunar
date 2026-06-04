@@ -1,6 +1,6 @@
 Package: operantlunar
 Title: Differentiating Reward Maximization from Melioration via Operant Conditioning
-Version: 0.4.2
+Version: 0.4.3
 Authors@R: person("Sondre", "Skarsten", email = "sondreskarsten@gmail.com", role = c("aut", "cre"))
 Author: Sondre Skarsten [aut, cre]
 Maintainer: Sondre Skarsten <sondreskarsten@gmail.com>
@@ -18,6 +18,8 @@ Description: A tabular reinforcement-learning instrument that mechanistically
     with linear function-approximation agents and a generic Gymnasium adapter; an
     optional Python LunarLander environment via reticulate; and a bundled Shiny app.
 License: MIT + file LICENSE
+URL: https://github.com/sondreskarsten/operantlunar, https://sondreskarsten.github.io/operantlunar/
+BugReports: https://github.com/sondreskarsten/operantlunar/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 8.0.0
