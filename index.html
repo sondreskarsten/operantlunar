@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Differentiating Reward Maximization from Melioration via Operant Conditioning • operantlunar</title>
-<script src="deps/jquery-3.6.1/jquery-3.6.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -58,6 +58,8 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="operantlunar">operantlunar<a class="anchor" aria-label="anchor" href="#operantlunar"></a>
 </h1></div>
+<!-- badges: start -->
+
 <p><code>operantlunar</code> is a native-R instrument for studying reinforcement-learning agents with the methods of the experimental analysis of behaviour. It began as a mechanism to <strong>differentiate reward-maximizing control</strong> (the law of effect) <strong>from descriptive melioration</strong> (the matching law) on a single shared learning skeleton, and has grown into a broader toolkit: applied-behaviour-analysis (ABA) framings of RL problems on the Gymnasium contract, and a <strong>methodological protocol</strong> that makes a behavioural conclusion about an agent invariant to researcher degrees of freedom — demonstrated both on a functional-analysis task and on a verified LunarLander solve. It ships with an optional Python LunarLander environment via <code>reticulate</code> and a bundled Shiny app, and is built to develop and deploy from RStudio.</p>
 <p><img src="reference/figures/README-hero-1.png" alt="Ad hoc verdicts spread across outcomes while the protocol returns a single verdict" width="100%"></p>
 <div class="section level2">
@@ -87,38 +89,38 @@
 <col width="29%">
 <col width="46%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Lever</th>
 <th>Function</th>
 <th>What it isolates</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Matching positive control</td>
 <td><code><a href="reference/fit_generalized_matching.html">fit_generalized_matching()</a></code></td>
 <td>both rules reproduce matching on concurrent VI</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Melioration trap</td>
 <td><code><a href="reference/melioration_trap_experiment.html">melioration_trap_experiment()</a></code></td>
 <td>the temporal-credit axis: optimum ≠ matching point</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Schedule family</td>
 <td><code><a href="reference/schedule_matching_table.html">schedule_matching_table()</a></code></td>
 <td>VI grades, VR goes exclusive</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Extinction</td>
 <td><code><a href="reference/extinction_experiment.html">extinction_experiment()</a></code></td>
 <td>resistance to extinction by acquisition schedule</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Self-control</td>
 <td><code><a href="reference/self_control_experiment.html">self_control_experiment()</a></code></td>
 <td>delay discounting and impulsive choice</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Whole battery</td>
 <td><code><a href="reference/operant_battery.html">operant_battery()</a></code></td>
 <td>runs the panel and classifies each rule</td>
@@ -190,66 +192,66 @@
 <col width="16%">
 <col width="83%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Family</th>
 <th>Entry points</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Learning skeleton</td>
 <td>
 <code><a href="reference/make_table.html">make_table()</a></code>, <code><a href="reference/run_episode.html">run_episode()</a></code>, <code><a href="reference/run_training.html">run_training()</a></code>, <code><a href="reference/evaluate_policy.html">evaluate_policy()</a></code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td>Learning rules</td>
 <td>
 <code><a href="reference/td_agent.html">td_agent()</a></code>, <code><a href="reference/sarsa_agent.html">sarsa_agent()</a></code>, <code><a href="reference/double_q_agent.html">double_q_agent()</a></code>, <code><a href="reference/actor_critic_agent.html">actor_critic_agent()</a></code>, <code><a href="reference/model_based_agent.html">model_based_agent()</a></code>, <code><a href="reference/melioration_agent.html">melioration_agent()</a></code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Operant paradigms &amp; experiments</td>
 <td>
 <code><a href="reference/operant_chamber.html">operant_chamber()</a></code>, <code><a href="reference/melioration_trap_experiment.html">melioration_trap_experiment()</a></code>, <code><a href="reference/operant_battery.html">operant_battery()</a></code>, <code><a href="reference/self_control_experiment.html">self_control_experiment()</a></code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td>Analysis &amp; fits</td>
 <td>
 <code><a href="reference/fit_generalized_matching.html">fit_generalized_matching()</a></code>, <code><a href="reference/fit_herrnstein_hyperbola.html">fit_herrnstein_hyperbola()</a></code>, <code><a href="reference/fit_discounting.html">fit_discounting()</a></code>, <code><a href="reference/differentiation_matrix.html">differentiation_matrix()</a></code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Function approximation</td>
 <td>
 <code><a href="reference/tile_coder.html">tile_coder()</a></code>, <code><a href="reference/linear_sarsa_agent.html">linear_sarsa_agent()</a></code>, <code><a href="reference/differentiate_fa.html">differentiate_fa()</a></code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td>Gymnasium adapter</td>
 <td>
 <code><a href="reference/make_gym.html">make_gym()</a></code>, <code><a href="reference/lunar_setup.html">lunar_setup()</a></code>, <code><a href="reference/differentiate.html">differentiate()</a></code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td>ABA framings</td>
 <td>
 <code><a href="reference/aba_gym_mapping.html">aba_gym_mapping()</a></code>, <code><a href="reference/gym_functional_analysis.html">gym_functional_analysis()</a></code>, <code><a href="reference/gym_dra.html">gym_dra()</a></code>, <code><a href="reference/gym_extinction.html">gym_extinction()</a></code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td>Methodological protocol</td>
 <td>
 <code><a href="reference/stability_reached.html">stability_reached()</a></code>, <code><a href="reference/criterion_line_verdict.html">criterion_line_verdict()</a></code>, <code><a href="reference/functional_analysis_replicated.html">functional_analysis_replicated()</a></code>, <code><a href="reference/convergence_demo.html">convergence_demo()</a></code>, <code><a href="reference/procedural_gridworld.html">procedural_gridworld()</a></code>, <code><a href="reference/convergence_demo_gridworld.html">convergence_demo_gridworld()</a></code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td>LunarLander value-add</td>
 <td>
 <code><a href="reference/lunar_returns.html">lunar_returns()</a></code>, <code><a href="reference/lunar_protocol_solved.html">lunar_protocol_solved()</a></code>, <code><a href="reference/lunar_solved_convergence.html">lunar_solved_convergence()</a></code>, <code><a href="reference/lunar_best_policy_convergence.html">lunar_best_policy_convergence()</a></code>, <code><a href="reference/lunar_training_reliability.html">lunar_training_reliability()</a></code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td>Plots</td>
 <td>functions prefixed <code>plot_</code>
 </td>
@@ -317,7 +319,12 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/sondreskarsten/operantlunar/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/sondreskarsten/operantlunar/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

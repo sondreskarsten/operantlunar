@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/sondreskarsten/operantlunar/blob/HEAD/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/sondreskarsten/operantlunar/blob/main/DESCRIPTION)
 
 Skarsten S (2026). *operantlunar: Differentiating Reward Maximization
 from Melioration via Operant Conditioning*. R package version 0.4.4,

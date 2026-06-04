@@ -37,6 +37,7 @@ checks that the last several observations show no trend and bounded
 bounce, and reading happens there or non-stabilisation is reported.
 
 ``` r
+
 flat <- tibble::tibble(session = 1:12, condition = "play",
                        rate = c(rep(0.2, 6), 0.21, 0.19, 0.2, 0.2, 0.21, 0.2))
 trending <- tibble::tibble(session = 1:12, condition = "play",
@@ -56,6 +57,7 @@ line minus those below the lower line is at least half the data points.
 implements exactly this, so the verdict is not a degree of freedom.
 
 ``` r
+
 ctrl <- c(0.04, 0.05, 0.06, 0.05, 0.05)
 last_k <- tibble::tibble(
   session = rep(1:5, 5),
@@ -79,6 +81,7 @@ On a stochastic single-state environment, replicating subjects yields a
 reliability summary rather than a single seed’s answer.
 
 ``` r
+
 r <- functional_analysis_replicated(
   true_function = "escape", p_reinforce = 0.8,
   n_subjects = 6L, min_subjects = 6L,
@@ -114,6 +117,7 @@ and 242). Held out on a disjoint terrain set, the first PPO policy still
 scores about 227, confirming the solve out of sample.
 
 ``` r
+
 returns <- lunar_returns()
 round(tapply(returns$ret, returns$policy_seed, mean), 1)
 #>     0     1     2     3    99   100   101   102 
@@ -126,6 +130,7 @@ do not; the protocol reads a settled estimate and reports not solved,
 with a bootstrap confidence attached.
 
 ``` r
+
 d <- lunar_solved_convergence(policy_seed = 0L)
 c(adhoc_distinct_verdicts = d$adhoc_distinct,
   protocol = d$protocol_verdict,
@@ -144,6 +149,7 @@ indistinguishable. This is the precise sense in which the best policy
 can be an evaluation-sample artifact.
 
 ``` r
+
 b <- lunar_best_policy_convergence(policy_a = 0L, policy_b = 1L)
 c(adhoc_distinct_winners = b$adhoc_distinct, protocol = b$protocol_verdict,
   est0 = round(b$estimate_a, 1), est1 = round(b$estimate_b, 1))
@@ -158,6 +164,7 @@ reach a high settled return, some fail near zero. A claim resting on one
 trained seed is not reproducible.
 
 ``` r
+
 as.data.frame(lunar_training_reliability()$per_seed)
 #>   policy_seed estimate stable    verdict
 #> 1           0    173.6   TRUE not solved
@@ -181,6 +188,7 @@ the protocol is thus correct in both directions — false positives on the
 near-threshold DQN policies, false negatives on the solved ones.
 
 ``` r
+
 ds <- lunar_solved_convergence(policy_seed = 99L)
 c(protocol = ds$protocol_verdict, estimate = round(ds$protocol_estimate, 1),
   boot_P_solved = round(ds$bootstrap_solved_fraction, 2), adhoc_distinct = ds$adhoc_distinct)
@@ -189,6 +197,7 @@ c(protocol = ds$protocol_verdict, estimate = round(ds$protocol_estimate, 1),
 ```
 
 ``` r
+
 plot_lunar_convergence(d)
 ```
 

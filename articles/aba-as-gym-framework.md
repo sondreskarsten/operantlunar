@@ -25,6 +25,7 @@ off-the-shelf tasks.
 ## The mapping
 
 ``` r
+
 aba_gym_mapping()
 #> # A tibble: 5 × 4
 #>   instrument                       rl_problem gym_mechanism diagnoses_or_changes
@@ -47,6 +48,7 @@ whose target response rate is elevated over control. It recovers a
 planted function:
 
 ``` r
+
 fa <- gym_functional_analysis(true_function = "escape")
 fa$identified_channel
 #> "escape"
@@ -68,6 +70,7 @@ inactive) while continuing to train, probing retained behaviour by
 evaluating with the channel restored. On the real `FrozenLake-v1` task:
 
 ``` r
+
 builder <- function() as_channel_env(make_gym("FrozenLake-v1", is_slippery = FALSE), "goal")
 gym_extinction(builder)
 ```
@@ -88,6 +91,7 @@ reinforces a problem arm (baseline), then switches the active channel so
 the problem arm is extinguished and an alternative arm is reinforced:
 
 ``` r
+
 demo <- gym_dra()
 plot_gym_dra(demo)
 ```

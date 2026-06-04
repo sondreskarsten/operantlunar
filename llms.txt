@@ -19,6 +19,7 @@ single verdict](reference/figures/README-hero-1.png)
 ## Installation
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("sondreskarsten/operantlunar")
 ```
@@ -49,6 +50,7 @@ myopic linear-operator preference with probability-matching selection
 `action_dist` interface.
 
 ``` r
+
 library(operantlunar)
 a <- td_agent()           # Q-learning: bootstrap + epsilon-greedy   -> maximizes
 b <- melioration_agent()  # gradient-bandit preference, prob matching -> meliorates
@@ -56,14 +58,14 @@ b <- melioration_agent()  # gradient-bandit preference, prob matching -> meliora
 
 The operant battery isolates the contexts where the two diverge:
 
-| Lever                     | Function                                                                                                                  | What it isolates                                   |
-|---------------------------|---------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
-| Matching positive control | [`fit_generalized_matching()`](https://sondreskarsten.github.io/operantlunar/reference/fit_generalized_matching.md)       | both rules reproduce matching on concurrent VI     |
-| Melioration trap          | [`melioration_trap_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/melioration_trap_experiment.md) | the temporal-credit axis: optimum ≠ matching point |
-| Schedule family           | [`schedule_matching_table()`](https://sondreskarsten.github.io/operantlunar/reference/schedule_matching_table.md)         | VI grades, VR goes exclusive                       |
-| Extinction                | [`extinction_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/extinction_experiment.md)             | resistance to extinction by acquisition schedule   |
-| Self-control              | [`self_control_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/self_control_experiment.md)         | delay discounting and impulsive choice             |
-| Whole battery             | [`operant_battery()`](https://sondreskarsten.github.io/operantlunar/reference/operant_battery.md)                         | runs the panel and classifies each rule            |
+| Lever | Function | What it isolates |
+|----|----|----|
+| Matching positive control | [`fit_generalized_matching()`](https://sondreskarsten.github.io/operantlunar/reference/fit_generalized_matching.md) | both rules reproduce matching on concurrent VI |
+| Melioration trap | [`melioration_trap_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/melioration_trap_experiment.md) | the temporal-credit axis: optimum ≠ matching point |
+| Schedule family | [`schedule_matching_table()`](https://sondreskarsten.github.io/operantlunar/reference/schedule_matching_table.md) | VI grades, VR goes exclusive |
+| Extinction | [`extinction_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/extinction_experiment.md) | resistance to extinction by acquisition schedule |
+| Self-control | [`self_control_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/self_control_experiment.md) | delay discounting and impulsive choice |
+| Whole battery | [`operant_battery()`](https://sondreskarsten.github.io/operantlunar/reference/operant_battery.md) | runs the panel and classifies each rule |
 
 ### 2. ABA framings of reinforcement learning
 
@@ -99,6 +101,7 @@ On a stochastic functional-analysis task, replicating subjects yields a
 reliability summary rather than one seed’s answer:
 
 ``` r
+
 r <- functional_analysis_replicated(
   true_function = "escape", p_reinforce = 0.8,
   n_subjects = 5L, min_subjects = 5L,
@@ -123,6 +126,7 @@ solve *quality* while DQN’s is catastrophic (two of its four seeds fail
 outright).
 
 ``` r
+
 round(tapply(lunar_returns()$ret, lunar_returns()$policy_seed, mean), 1)
 #>     0     1     2     3    99   100   101   102 
 #> 182.3 166.8  -1.2   6.4 242.9 218.5 237.7 242.3
@@ -134,6 +138,7 @@ the protocol reads a settled estimate against the frozen threshold with
 a bootstrap confidence.
 
 ``` r
+
 d <- lunar_solved_convergence(policy_seed = 0L)
 c(adhoc_distinct = d$adhoc_distinct, protocol = d$protocol_verdict,
   estimate = round(d$protocol_estimate, 1), boot_P_solved = round(d$bootstrap_solved_fraction, 2))
@@ -145,6 +150,7 @@ c(adhoc_distinct = d$adhoc_distinct, protocol = d$protocol_verdict,
 the four PPO policies clear the bar, the four DQN policies do not:
 
 ``` r
+
 as.data.frame(lunar_training_reliability()$per_seed)
 #>   policy_seed estimate stable    verdict
 #> 1           0    173.6   TRUE not solved
@@ -166,6 +172,7 @@ one-time choices — reproducibility, not privileged ground truth).
 ## Interactive app
 
 ``` r
+
 run_app()
 ```
 
@@ -181,22 +188,23 @@ protocol verdict.
 index](https://sondreskarsten.github.io/operantlunar/reference/). The
 main families:
 
-| Family                          | Entry points                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Learning skeleton               | [`make_table()`](https://sondreskarsten.github.io/operantlunar/reference/make_table.md), [`run_episode()`](https://sondreskarsten.github.io/operantlunar/reference/run_episode.md), [`run_training()`](https://sondreskarsten.github.io/operantlunar/reference/run_training.md), [`evaluate_policy()`](https://sondreskarsten.github.io/operantlunar/reference/evaluate_policy.md)                                                                                                                                                                                                                                                                                                                 |
-| Learning rules                  | [`td_agent()`](https://sondreskarsten.github.io/operantlunar/reference/td_agent.md), [`sarsa_agent()`](https://sondreskarsten.github.io/operantlunar/reference/sarsa_agent.md), [`double_q_agent()`](https://sondreskarsten.github.io/operantlunar/reference/double_q_agent.md), [`actor_critic_agent()`](https://sondreskarsten.github.io/operantlunar/reference/actor_critic_agent.md), [`model_based_agent()`](https://sondreskarsten.github.io/operantlunar/reference/model_based_agent.md), [`melioration_agent()`](https://sondreskarsten.github.io/operantlunar/reference/melioration_agent.md)                                                                                             |
-| Operant paradigms & experiments | [`operant_chamber()`](https://sondreskarsten.github.io/operantlunar/reference/operant_chamber.md), [`melioration_trap_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/melioration_trap_experiment.md), [`operant_battery()`](https://sondreskarsten.github.io/operantlunar/reference/operant_battery.md), [`self_control_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/self_control_experiment.md)                                                                                                                                                                                                                                                 |
-| Analysis & fits                 | [`fit_generalized_matching()`](https://sondreskarsten.github.io/operantlunar/reference/fit_generalized_matching.md), [`fit_herrnstein_hyperbola()`](https://sondreskarsten.github.io/operantlunar/reference/fit_herrnstein_hyperbola.md), [`fit_discounting()`](https://sondreskarsten.github.io/operantlunar/reference/fit_discounting.md), [`differentiation_matrix()`](https://sondreskarsten.github.io/operantlunar/reference/differentiation_matrix.md)                                                                                                                                                                                                                                       |
-| Function approximation          | [`tile_coder()`](https://sondreskarsten.github.io/operantlunar/reference/tile_coder.md), [`linear_sarsa_agent()`](https://sondreskarsten.github.io/operantlunar/reference/linear_sarsa_agent.md), [`differentiate_fa()`](https://sondreskarsten.github.io/operantlunar/reference/differentiate_fa.md)                                                                                                                                                                                                                                                                                                                                                                                              |
-| Gymnasium adapter               | [`make_gym()`](https://sondreskarsten.github.io/operantlunar/reference/make_gym.md), [`lunar_setup()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_setup.md), [`differentiate()`](https://sondreskarsten.github.io/operantlunar/reference/differentiate.md)                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ABA framings                    | [`aba_gym_mapping()`](https://sondreskarsten.github.io/operantlunar/reference/aba_gym_mapping.md), [`gym_functional_analysis()`](https://sondreskarsten.github.io/operantlunar/reference/gym_functional_analysis.md), [`gym_dra()`](https://sondreskarsten.github.io/operantlunar/reference/gym_dra.md), [`gym_extinction()`](https://sondreskarsten.github.io/operantlunar/reference/gym_extinction.md)                                                                                                                                                                                                                                                                                           |
-| Methodological protocol         | [`stability_reached()`](https://sondreskarsten.github.io/operantlunar/reference/stability_reached.md), [`criterion_line_verdict()`](https://sondreskarsten.github.io/operantlunar/reference/criterion_line_verdict.md), [`functional_analysis_replicated()`](https://sondreskarsten.github.io/operantlunar/reference/functional_analysis_replicated.md), [`convergence_demo()`](https://sondreskarsten.github.io/operantlunar/reference/convergence_demo.md), [`procedural_gridworld()`](https://sondreskarsten.github.io/operantlunar/reference/procedural_gridworld.md), [`convergence_demo_gridworld()`](https://sondreskarsten.github.io/operantlunar/reference/convergence_demo_gridworld.md) |
-| LunarLander value-add           | [`lunar_returns()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_returns.md), [`lunar_protocol_solved()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_protocol_solved.md), [`lunar_solved_convergence()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_solved_convergence.md), [`lunar_best_policy_convergence()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_best_policy_convergence.md), [`lunar_training_reliability()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_training_reliability.md)                                                                                                          |
-| Plots                           | functions prefixed `plot_`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Family | Entry points |
+|----|----|
+| Learning skeleton | [`make_table()`](https://sondreskarsten.github.io/operantlunar/reference/make_table.md), [`run_episode()`](https://sondreskarsten.github.io/operantlunar/reference/run_episode.md), [`run_training()`](https://sondreskarsten.github.io/operantlunar/reference/run_training.md), [`evaluate_policy()`](https://sondreskarsten.github.io/operantlunar/reference/evaluate_policy.md) |
+| Learning rules | [`td_agent()`](https://sondreskarsten.github.io/operantlunar/reference/td_agent.md), [`sarsa_agent()`](https://sondreskarsten.github.io/operantlunar/reference/sarsa_agent.md), [`double_q_agent()`](https://sondreskarsten.github.io/operantlunar/reference/double_q_agent.md), [`actor_critic_agent()`](https://sondreskarsten.github.io/operantlunar/reference/actor_critic_agent.md), [`model_based_agent()`](https://sondreskarsten.github.io/operantlunar/reference/model_based_agent.md), [`melioration_agent()`](https://sondreskarsten.github.io/operantlunar/reference/melioration_agent.md) |
+| Operant paradigms & experiments | [`operant_chamber()`](https://sondreskarsten.github.io/operantlunar/reference/operant_chamber.md), [`melioration_trap_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/melioration_trap_experiment.md), [`operant_battery()`](https://sondreskarsten.github.io/operantlunar/reference/operant_battery.md), [`self_control_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/self_control_experiment.md) |
+| Analysis & fits | [`fit_generalized_matching()`](https://sondreskarsten.github.io/operantlunar/reference/fit_generalized_matching.md), [`fit_herrnstein_hyperbola()`](https://sondreskarsten.github.io/operantlunar/reference/fit_herrnstein_hyperbola.md), [`fit_discounting()`](https://sondreskarsten.github.io/operantlunar/reference/fit_discounting.md), [`differentiation_matrix()`](https://sondreskarsten.github.io/operantlunar/reference/differentiation_matrix.md) |
+| Function approximation | [`tile_coder()`](https://sondreskarsten.github.io/operantlunar/reference/tile_coder.md), [`linear_sarsa_agent()`](https://sondreskarsten.github.io/operantlunar/reference/linear_sarsa_agent.md), [`differentiate_fa()`](https://sondreskarsten.github.io/operantlunar/reference/differentiate_fa.md) |
+| Gymnasium adapter | [`make_gym()`](https://sondreskarsten.github.io/operantlunar/reference/make_gym.md), [`lunar_setup()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_setup.md), [`differentiate()`](https://sondreskarsten.github.io/operantlunar/reference/differentiate.md) |
+| ABA framings | [`aba_gym_mapping()`](https://sondreskarsten.github.io/operantlunar/reference/aba_gym_mapping.md), [`gym_functional_analysis()`](https://sondreskarsten.github.io/operantlunar/reference/gym_functional_analysis.md), [`gym_dra()`](https://sondreskarsten.github.io/operantlunar/reference/gym_dra.md), [`gym_extinction()`](https://sondreskarsten.github.io/operantlunar/reference/gym_extinction.md) |
+| Methodological protocol | [`stability_reached()`](https://sondreskarsten.github.io/operantlunar/reference/stability_reached.md), [`criterion_line_verdict()`](https://sondreskarsten.github.io/operantlunar/reference/criterion_line_verdict.md), [`functional_analysis_replicated()`](https://sondreskarsten.github.io/operantlunar/reference/functional_analysis_replicated.md), [`convergence_demo()`](https://sondreskarsten.github.io/operantlunar/reference/convergence_demo.md), [`procedural_gridworld()`](https://sondreskarsten.github.io/operantlunar/reference/procedural_gridworld.md), [`convergence_demo_gridworld()`](https://sondreskarsten.github.io/operantlunar/reference/convergence_demo_gridworld.md) |
+| LunarLander value-add | [`lunar_returns()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_returns.md), [`lunar_protocol_solved()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_protocol_solved.md), [`lunar_solved_convergence()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_solved_convergence.md), [`lunar_best_policy_convergence()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_best_policy_convergence.md), [`lunar_training_reliability()`](https://sondreskarsten.github.io/operantlunar/reference/lunar_training_reliability.md) |
+| Plots | functions prefixed `plot_` |
 
 ## Learn more
 
 ``` r
+
 browseVignettes("operantlunar")
 ```
 

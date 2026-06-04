@@ -1,6 +1,7 @@
 # Differentiating reward maximization from melioration
 
 ``` r
+
 library(operantlunar)
 ```
 
@@ -24,6 +25,7 @@ the two accounts.
 Every rule plugs into every paradigm through a registry:
 
 ``` r
+
 names(agent_registry())
 #>  [1] "q_learning"          "sarsa"               "expected_sarsa"     
 #>  [4] "double_q"            "boltzmann_q"         "actor_critic"       
@@ -35,6 +37,7 @@ sapply(c("q_learning", "melioration", "melioration_rate", "win_stay_lose_shift")
 ```
 
 ``` r
+
 ag <- make_agent("double_q", n_actions = 2L, horizon = 30000L)
 ```
 
@@ -45,6 +48,7 @@ A is chosen the worse both options become. The rate-maximizing
 allocation differs from the matching allocation.
 
 ``` r
+
 tr <- melioration_trap()
 tr$optimum()
 #> $x_opt
@@ -65,12 +69,14 @@ is pulled to the matching point and earns less. (Full run elided for
 build speed.)
 
 ``` r
+
 melioration_trap_experiment(n_steps = 60000)
 ```
 
 ## More paradigms
 
 ``` r
+
 prob_matching_experiment(probs = c(0.75, 0.25))   # matching vs exclusive choice
 self_control_experiment()                          # delay discounting
 drl_experiment()                                   # low-rate responding
@@ -90,6 +96,7 @@ behavior. A small two-rule, two-paradigm version runs here; the full
 instrument uses more rules, more paradigms, and a larger step budget.
 
 ``` r
+
 dm <- differentiation_matrix(
   rules = c("q_learning", "melioration"),
   paradigms = c("prob_matching", "trap"),
@@ -116,6 +123,7 @@ environments. These require a configured Python via
 and are not run here.
 
 ``` r
+
 lunar_setup("/usr/bin/python3")
 differentiate_fa("CartPole-v1", n_train = 300)
 differentiate_gym("FrozenLake-v1", make_kwargs = list(is_slippery = FALSE))
