@@ -3,6 +3,11 @@
 
 # operantlunar
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/sondreskarsten/operantlunar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sondreskarsten/operantlunar/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 `operantlunar` is a native-R instrument for studying
 reinforcement-learning agents with the methods of the experimental
 analysis of behaviour. It began as a mechanism to **differentiate

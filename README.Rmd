@@ -17,6 +17,10 @@ set.seed(1)
 
 # operantlunar
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/sondreskarsten/operantlunar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sondreskarsten/operantlunar/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 `operantlunar` is a native-R instrument for studying reinforcement-learning agents with the methods of the experimental analysis of behaviour. It began as a mechanism to **differentiate reward-maximizing control** (the law of effect) **from descriptive melioration** (the matching law) on a single shared learning skeleton, and has grown into a broader toolkit: applied-behaviour-analysis (ABA) framings of RL problems on the Gymnasium contract, and a **methodological protocol** that makes a behavioural conclusion about an agent invariant to researcher degrees of freedom — demonstrated both on a functional-analysis task and on a verified LunarLander solve. It ships with an optional Python LunarLander environment via `reticulate` and a bundled Shiny app, and is built to develop and deploy from RStudio.
 
 ```{r hero, echo = FALSE, fig.height = 3.0, fig.alt = "Ad hoc verdicts spread across outcomes while the protocol returns a single verdict"}
