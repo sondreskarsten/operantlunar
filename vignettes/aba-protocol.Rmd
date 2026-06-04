@@ -65,7 +65,7 @@ The headline comparison is starker on the procedural gridworld (`convergence_dem
 
 ## LunarLander: the protocol as a value-add on a real solve
 
-The same logic applies to a real control task. Four DQN policies were trained on LunarLander-v3 (training seeds 0–3) and evaluated across 200 terrains; the returns are bundled.
+The same logic applies to a real control task. Five policies were trained on LunarLander-v3 and evaluated across 200 terrains; the returns are bundled. Four are DQN policies (training seeds 0–3, near-solved or worse); the fifth (policy seed 99) is a PPO policy trained to a verified solve, with a true mean above 240.
 
 ```{r lunar-load}
 returns <- lunar_returns()
@@ -96,6 +96,14 @@ c(adhoc_distinct_winners = b$adhoc_distinct, protocol = b$protocol_verdict,
 as.data.frame(lunar_training_reliability()$per_seed)
 ```
 
+Exactly one of the five policies — the PPO policy (seed 99) — meets the criterion, at a settled estimate near 243. Even for that genuinely solved policy a very short evaluation occasionally reads not solved, while the protocol confirms it with full bootstrap confidence; the protocol is thus correct in both directions (false positives on the near-threshold DQN policies, false negatives on the solved one).
+
+```{r lunar-solved-ppo}
+ds <- lunar_solved_convergence(policy_seed = 99L)
+c(protocol = ds$protocol_verdict, estimate = round(ds$protocol_estimate, 1),
+  boot_P_solved = round(ds$bootstrap_solved_fraction, 2), adhoc_distinct = ds$adhoc_distinct)
+```
+
 ```{r lunar-plot, fig.alt = "Bar chart contrasting the spread of ad hoc verdicts against the single protocol verdict"}
 plot_lunar_convergence(d)
 ```
@@ -104,7 +112,7 @@ plot_lunar_convergence(d)
 
 The protocol does not eliminate researcher degrees of freedom; it relocates them from undocumented per-analysis choices to a small set of frozen, stated parameters (the stability tolerances, the criterion-line threshold, the difference band, the solved threshold), and then exposes them. Its product is reproducibility and cross-study comparability, not privileged access to ground truth: a different frozen protocol could yield a different but equally stable verdict.
 
-Two further limits are worth stating. The sharpest LunarLander result — the solved-or-not coin flip — is largest precisely because the policy sits near the threshold; a clearly solved or clearly failed policy would not show it, though the best-policy and reliability results do not depend on proximity to the threshold. And the bootstrap confidence treats the evaluated terrains as the population, so it quantifies sampling noise, not a mismatch between the evaluation and deployment terrain distributions.
+Two further limits are worth stating. The solved-or-not divergence is largest near the threshold, where short evaluations straddle it from both sides; even the genuinely solved policy shows occasional false negatives at the smallest budgets, and the near-threshold DQN policies show frequent false positives, while the protocol is correct in both directions. And the bootstrap confidence treats the evaluated terrains as the population, so it quantifies sampling noise, not a mismatch between the evaluation and deployment terrain distributions.
 
 ## References
 

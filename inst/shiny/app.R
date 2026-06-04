@@ -171,7 +171,7 @@ ui <- fluidPage(
       sidebarLayout(
         sidebarPanel(
           selectInput("proto_demo", "Conclusion to stress-test", choices = c("Is it solved?", "Which policy is best?")),
-          sliderInput("proto_seed", "Policy (training seed) for 'solved?'", min = 0, max = 3, value = 0, step = 1),
+          selectInput("proto_seed", "Policy for 'solved?'", choices = c("DQN seed 0" = 0, "DQN seed 1" = 1, "DQN seed 2" = 2, "DQN seed 3" = 3, "PPO (solved)" = 99)),
           actionButton("proto_run", "Run"),
           helpText("The methodological protocol on real LunarLander returns. A short ad hoc evaluation gives a budget- and terrain-dependent verdict; the protocol reads a steady-state estimate against a frozen rule and reports an invariant verdict with a bootstrap confidence. The table shows the training-seed lottery. Python-free: uses the bundled returns.")
         ),

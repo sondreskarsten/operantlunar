@@ -1,3 +1,7 @@
+# operantlunar 0.4.2
+
+* A verified LunarLander-v3 solve is now bundled. A PPO policy (policy seed 99 in the returns) reaches a true mean of about 243 over 200 terrains, clearing the canonical 200 threshold with far lower variance than the DQN policies. The solve was reached by chunked resume, which PPO supports cleanly because it has no replay buffer, unlike the DQN warm-restart that degraded under resume. `lunar_training_reliability()` now identifies exactly one of five policies as solved, and the solved policy supplies a clear-winner case for `lunar_best_policy_convergence()` to complement the indistinguishable case. The protocol's separating power remains concentrated near the threshold: for a clearly solved policy the ad hoc and protocol verdicts agree, which is the correct behaviour.
+
 # operantlunar 0.4.1
 
 * New vignette "ABA as a methodological protocol for reinforcement learning" articulating the headline: the protocol makes behavioural conclusions about an agent invariant to researcher degrees of freedom, tying together the functional-analysis convergence demonstration and the LunarLander value-add.

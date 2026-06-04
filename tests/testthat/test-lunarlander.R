@@ -1,8 +1,8 @@
 test_that("lunar_returns loads the bundled dataset", {
   r <- lunar_returns()
   expect_true(all(c("policy_seed", "terrain_seed", "ret") %in% names(r)))
-  expect_identical(nrow(r), 800L)
-  expect_setequal(unique(r$policy_seed), c(0L, 1L, 2L, 3L))
+  expect_identical(nrow(r), 1000L)
+  expect_setequal(unique(r$policy_seed), c(0L, 1L, 2L, 3L, 99L))
 })
 
 test_that("lunar_steady_state_return reads a settled estimate", {
@@ -42,7 +42,8 @@ test_that("lunar_best_policy_convergence flips ad hoc, stable protocol", {
 
 test_that("lunar_training_reliability exposes the seed lottery", {
   r <- lunar_training_reliability(threshold = 200)
-  expect_identical(r$n_total, 4L)
-  expect_identical(r$n_solved, 0L)
-  expect_identical(nrow(r$per_seed), 4L)
+  expect_identical(r$n_total, 5L)
+  expect_identical(r$n_solved, 1L)
+  expect_identical(nrow(r$per_seed), 5L)
+  expect_identical(r$per_seed$verdict[r$per_seed$policy_seed == 99L], "solved")
 })

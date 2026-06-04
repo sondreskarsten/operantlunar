@@ -3,9 +3,11 @@
 #' Returns the per-policy, per-terrain episode returns produced by evaluating
 #' four DQN policies (training seeds 0-3) on LunarLander-v3 across 200 distinct
 #' terrains (reset seeds). Seeds 0 and 1 are near-solved (true 100+ episode means
-#' of roughly 182 and 167); seeds 2 and 3 fail at the same training budget. The
-#' dataset is the substrate for demonstrating that conclusions about a policy are
-#' invariant under the protocol but not under ad hoc evaluation.
+#' of roughly 182 and 167); seeds 2 and 3 fail at the same training budget. Policy
+#' seed 99 is a PPO policy trained to a verified solve (true mean about 243, above
+#' the 200 threshold, with low variance). The dataset is the substrate for
+#' demonstrating that conclusions about a policy are invariant under the protocol
+#' but not under ad hoc evaluation.
 #'
 #' @param path Optional path to a returns CSV; defaults to the bundled dataset.
 #' @return A tibble with `policy_seed`, `terrain_seed`, `ret`.
