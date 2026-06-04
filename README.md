@@ -100,17 +100,21 @@ as.data.frame(r$distribution)
 #> 1  escape 5          1
 ```
 
-The same logic applies to a real control task. Five policies were
+The same logic applies to a real control task. Eight policies were
 trained on LunarLander-v3 and evaluated across 200 terrains; the returns
-are bundled. Four are DQN policies (training seeds 0–3); the fifth is a
-PPO policy trained to a **verified solve** — a true mean of about 243
-over 200 terrains, above the canonical 200 threshold, with far lower
-variance than the DQN policies.
+are bundled. Four are DQN policies (seeds 0–3, near-solved or worse);
+four are PPO policies (seeds 99–102) trained to a common 620k-step
+budget by clean chunked resume, and **all four solve** (true means of
+about 243, 219, 238 and 242). Held out on a disjoint terrain set, the
+first PPO policy still scores about 227 — the solve is real out of
+sample. Both algorithms run a training-seed lottery, but PPO’s governs
+solve *quality* while DQN’s is catastrophic (two of its four seeds fail
+outright).
 
 ``` r
 round(tapply(lunar_returns()$ret, lunar_returns()$policy_seed, mean), 1)
-#>     0     1     2     3    99 
-#> 182.3 166.8  -1.2   6.4 242.9
+#>     0     1     2     3    99   100   101   102 
+#> 182.3 166.8  -1.2   6.4 242.9 218.5 237.7 242.3
 ```
 
 The protocol’s value shows up as conclusion stability. *Is a policy
@@ -126,8 +130,8 @@ c(adhoc_distinct = d$adhoc_distinct, protocol = d$protocol_verdict,
 #>            "2"   "not solved"        "173.6"         "0.01"
 ```
 
-*Which trained seed is reliable?* At a fixed budget the seeds split, and
-exactly one of the five — the PPO policy — clears the bar:
+*Which trained seed is reliable?* At a fixed budget the seeds split —
+the four PPO policies clear the bar, the four DQN policies do not:
 
 ``` r
 as.data.frame(lunar_training_reliability()$per_seed)
@@ -137,6 +141,9 @@ as.data.frame(lunar_training_reliability()$per_seed)
 #> 3           2     -0.7   TRUE not solved
 #> 4           3      0.1   TRUE not solved
 #> 5          99    243.5   TRUE     solved
+#> 6         100    214.6   TRUE     solved
+#> 7         101    235.9   TRUE     solved
+#> 8         102    235.0   TRUE     solved
 ```
 
 The companion vignette, *ABA as a methodological protocol for

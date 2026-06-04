@@ -65,7 +65,7 @@ The headline comparison is starker on the procedural gridworld (`convergence_dem
 
 ## LunarLander: the protocol as a value-add on a real solve
 
-The same logic applies to a real control task. Five policies were trained on LunarLander-v3 and evaluated across 200 terrains; the returns are bundled. Four are DQN policies (training seeds 0–3, near-solved or worse); the fifth (policy seed 99) is a PPO policy trained to a verified solve, with a true mean above 240.
+The same logic applies to a real control task. Eight policies were trained on LunarLander-v3 and evaluated across 200 terrains; the returns are bundled. Four are DQN policies (seeds 0–3, near-solved or worse); four are PPO policies (seeds 99–102) trained to a common budget by clean chunked resume, and all four solve (true means of about 243, 219, 238 and 242). Held out on a disjoint terrain set, the first PPO policy still scores about 227, confirming the solve out of sample.
 
 ```{r lunar-load}
 returns <- lunar_returns()
@@ -96,7 +96,7 @@ c(adhoc_distinct_winners = b$adhoc_distinct, protocol = b$protocol_verdict,
 as.data.frame(lunar_training_reliability()$per_seed)
 ```
 
-Exactly one of the five policies — the PPO policy (seed 99) — meets the criterion, at a settled estimate near 243. Even for that genuinely solved policy a very short evaluation occasionally reads not solved, while the protocol confirms it with full bootstrap confidence; the protocol is thus correct in both directions (false positives on the near-threshold DQN policies, false negatives on the solved one).
+The four PPO policies (seeds 99–102) all clear the criterion; the four DQN policies do not. The two algorithms differ in the *kind* of lottery they run: DQN's is catastrophic — two of its four seeds fail outright — while PPO's, at its own larger budget, governs solve quality rather than solve-or-fail (settled estimates spread from about 215 to 243). Even for a genuinely solved policy a very short evaluation occasionally reads not solved, while the protocol confirms it with full bootstrap confidence; the protocol is thus correct in both directions — false positives on the near-threshold DQN policies, false negatives on the solved ones.
 
 ```{r lunar-solved-ppo}
 ds <- lunar_solved_convergence(policy_seed = 99L)

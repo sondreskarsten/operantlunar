@@ -1,3 +1,8 @@
+# operantlunar 0.4.4
+
+* The bundled LunarLander returns now include a PPO training-seed lottery: four PPO policies (seeds 99-102) trained to a common 620k-step budget by clean chunked resume, all of which solve (true means about 243, 219, 238, 242). PPO's seed lottery therefore governs solve quality rather than solve-or-fail, a milder lottery than DQN's (seeds 2-3 fail outright) — with the caveat that the two algorithms are trained to different budgets, so this contrasts each algorithm's lottery at its own near-solve budget. `lunar_training_reliability()` now reports four of eight policies solved.
+* `lunar_returns()` gains a `holdout` argument loading the verified solve's returns on a disjoint terrain set (reset seeds 201-400, mean about 227), confirming the solve generalises out of sample.
+
 # operantlunar 0.4.3
 
 * README is now generated from `README.Rmd` and covers the full package: the maximization-vs-melioration core, the ABA-on-Gymnasium framings, and the methodological protocol with the LunarLander value-add, with a hero figure and live examples. A package-level help page (`?operantlunar`), a function-family navigation table, and pkgdown reference groups for the protocol and the LunarLander value-add improve discoverability. DESCRIPTION gains URL and BugReports.

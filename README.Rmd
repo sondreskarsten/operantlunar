@@ -78,7 +78,7 @@ r$modal_verdict
 as.data.frame(r$distribution)
 ```
 
-The same logic applies to a real control task. Five policies were trained on LunarLander-v3 and evaluated across 200 terrains; the returns are bundled. Four are DQN policies (training seeds 0–3); the fifth is a PPO policy trained to a **verified solve** — a true mean of about 243 over 200 terrains, above the canonical 200 threshold, with far lower variance than the DQN policies.
+The same logic applies to a real control task. Eight policies were trained on LunarLander-v3 and evaluated across 200 terrains; the returns are bundled. Four are DQN policies (seeds 0–3, near-solved or worse); four are PPO policies (seeds 99–102) trained to a common 620k-step budget by clean chunked resume, and **all four solve** (true means of about 243, 219, 238 and 242). Held out on a disjoint terrain set, the first PPO policy still scores about 227 — the solve is real out of sample. Both algorithms run a training-seed lottery, but PPO's governs solve *quality* while DQN's is catastrophic (two of its four seeds fail outright).
 
 ```{r lunar}
 round(tapply(lunar_returns()$ret, lunar_returns()$policy_seed, mean), 1)
@@ -92,7 +92,7 @@ c(adhoc_distinct = d$adhoc_distinct, protocol = d$protocol_verdict,
   estimate = round(d$protocol_estimate, 1), boot_P_solved = round(d$bootstrap_solved_fraction, 2))
 ```
 
-*Which trained seed is reliable?* At a fixed budget the seeds split, and exactly one of the five — the PPO policy — clears the bar:
+*Which trained seed is reliable?* At a fixed budget the seeds split — the four PPO policies clear the bar, the four DQN policies do not:
 
 ```{r reliability}
 as.data.frame(lunar_training_reliability()$per_seed)

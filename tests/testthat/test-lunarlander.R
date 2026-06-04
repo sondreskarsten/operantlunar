@@ -1,8 +1,16 @@
 test_that("lunar_returns loads the bundled dataset", {
   r <- lunar_returns()
   expect_true(all(c("policy_seed", "terrain_seed", "ret") %in% names(r)))
-  expect_identical(nrow(r), 1000L)
-  expect_setequal(unique(r$policy_seed), c(0L, 1L, 2L, 3L, 99L))
+  expect_identical(nrow(r), 1600L)
+  expect_setequal(unique(r$policy_seed), c(0L, 1L, 2L, 3L, 99L, 100L, 101L, 102L))
+})
+
+test_that("lunar_returns holdout is a disjoint terrain set for the solved policy", {
+  h <- lunar_returns(holdout = TRUE)
+  expect_identical(nrow(h), 200L)
+  expect_setequal(unique(h$policy_seed), 99L)
+  expect_identical(range(h$terrain_seed), c(201L, 400L))
+  expect_gt(mean(h$ret), 200)
 })
 
 test_that("lunar_steady_state_return reads a settled estimate", {
@@ -42,8 +50,8 @@ test_that("lunar_best_policy_convergence flips ad hoc, stable protocol", {
 
 test_that("lunar_training_reliability exposes the seed lottery", {
   r <- lunar_training_reliability(threshold = 200)
-  expect_identical(r$n_total, 5L)
-  expect_identical(r$n_solved, 1L)
-  expect_identical(nrow(r$per_seed), 5L)
-  expect_identical(r$per_seed$verdict[r$per_seed$policy_seed == 99L], "solved")
+  expect_identical(r$n_total, 8L)
+  expect_identical(r$n_solved, 4L)
+  expect_identical(nrow(r$per_seed), 8L)
+  expect_setequal(r$per_seed$policy_seed[r$per_seed$verdict == "solved"], c(99L, 100L, 101L, 102L))
 })
