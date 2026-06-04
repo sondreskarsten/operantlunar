@@ -14,7 +14,14 @@ schedules); an analysis layer with generalized-matching,
 Herrnstein-hyperbola and discounting fits and a differentiation-matrix
 capstone; hashed tile coding with linear function-approximation agents
 and a generic Gymnasium adapter; an optional Python LunarLander
-environment via reticulate; and a bundled Shiny app.
+environment via reticulate; and a bundled Shiny app. It also expresses
+applied-behaviour-analysis instruments (functional analysis,
+differential reinforcement, extinction) on the Gymnasium contract, and
+adds a methodological protocol (steady-state reading, a criterion-line
+decision rule and idiographic replication) that makes a behavioural
+conclusion about an agent invariant to researcher degrees of freedom,
+demonstrated on a functional-analysis task and on a verified LunarLander
+solve.
 
 ## See also
 

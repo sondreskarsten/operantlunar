@@ -1,5 +1,23 @@
 # Changelog
 
+## operantlunar 0.4.5
+
+- Corrected the Extinction entry in
+  [`aba_toolkit()`](https://sondreskarsten.github.io/operantlunar/reference/aba_toolkit.md):
+  it previously stated that behaviour acquired on leaner schedules is
+  more resistant to extinction (the partial-reinforcement extinction
+  effect), but
+  [`extinction_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/extinction_experiment.md)
+  empirically shows the reverse for this value-tracking agent –
+  continuous reinforcement builds the highest action value and is
+  slowest to extinguish. The entry and
+  [`extinction_experiment()`](https://sondreskarsten.github.io/operantlunar/reference/extinction_experiment.md)’s
+  documentation now describe the actual ordering and note that PREE, a
+  generalisation-decrement phenomenon, is not reproduced.
+- Extended the package Description to cover the ABA-on-Gymnasium
+  framings and the methodological protocol (with the verified
+  LunarLander solve) alongside the maximization-vs-melioration core.
+
 ## operantlunar 0.4.4
 
 - The bundled LunarLander returns now include a PPO training-seed
