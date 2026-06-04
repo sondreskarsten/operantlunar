@@ -2,3 +2,4 @@
 ^results$
 ^\.git$
 ^README\.md$
+^data-raw$

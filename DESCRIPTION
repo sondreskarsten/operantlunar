@@ -1,6 +1,6 @@
 Package: operantlunar
 Title: Differentiating Reward Maximization from Melioration via Operant Conditioning
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: person("Sondre", "Skarsten", email = "sondreskarsten@gmail.com", role = c("aut", "cre"))
 Author: Sondre Skarsten [aut, cre]
 Maintainer: Sondre Skarsten <sondreskarsten@gmail.com>

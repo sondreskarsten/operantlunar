@@ -1,3 +1,11 @@
+# operantlunar 0.4.0
+
+## LunarLander: the protocol as a value-add on a real control task
+
+* Applies the methodological protocol to LunarLander-v3, where the environment seed sets the terrain. Four DQN policies (training seeds 0-3) were trained with Stable-Baselines3; their per-terrain returns over 200 terrains are bundled and loaded by `lunar_returns()`. The functions reuse `stability_reached()` for a steady-state evaluation estimate (`lunar_steady_state_return()`), apply a frozen solved threshold (`lunar_protocol_solved()`), and show that conclusions are invariant under the protocol but not under ad hoc evaluation.
+* `lunar_solved_convergence()`: a short evaluation declares the policy solved or not solved depending on the episode budget and terrain pool (at five episodes the verdict is a coin flip across pools), while the protocol reads a settled estimate near 174 and reports not solved with a bootstrap confidence near two percent. `lunar_best_policy_convergence()`: the ad hoc head-to-head winner of two near-identical policies flips with the evaluation while the protocol reports them indistinguishable, making concrete that the best policy can be an evaluation-sample artifact. `lunar_training_reliability()`: at a fixed budget two of four training seeds reach about 173 and two fail near zero, so a claim resting on one trained seed is not reproducible.
+* Training scripts are in `data-raw/lunar/`. A verified solve (mean at least 200 over 100+ episodes) was not reached in the constrained build environment (single core, destructive warm-restart on resume); the bundled policies are near-solved (true means about 167 to 182), which makes the unreliability of ad hoc solved claims especially direct.
+
 # operantlunar 0.3.0
 
 ## ABA as a methodological protocol
