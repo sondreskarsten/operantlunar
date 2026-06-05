@@ -1,3 +1,7 @@
+# operantlunar 0.4.6
+
+* Added a LunarLander quickstart. The verified-solved PPO policy is bundled (`inst/extdata/ppo_seed0_solved.zip`) and a runnable example, `system.file("examples", "lunar_quickstart.R", package = "operantlunar")`, loads it, runs an episode well above the solved threshold, and renders a GIF of the landing. The README shows the rendered landing and documents one-step Python provisioning through reticulate (`gymnasium[box2d]`, `stable-baselines3`, `pillow`).
+
 # operantlunar 0.4.5
 
 * Corrected the Extinction entry in `aba_toolkit()`: it previously stated that behaviour acquired on leaner schedules is more resistant to extinction (the partial-reinforcement extinction effect), but `extinction_experiment()` empirically shows the reverse for this value-tracking agent -- continuous reinforcement builds the highest action value and is slowest to extinguish. The entry and `extinction_experiment()`'s documentation now describe the actual ordering and note that PREE, a generalisation-decrement phenomenon, is not reproduced.
