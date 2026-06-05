@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">operantlunar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,10 @@
       <small>Source: <a href="https://github.com/sondreskarsten/operantlunar/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.7" id="operantlunar-047">operantlunar 0.4.7<a class="anchor" aria-label="anchor" href="#operantlunar-047"></a></h2>
+<ul><li>The LunarLander quickstart now watches the policy live by default: it opens a real-time window and plays several fresh episodes on random terrains (genuine rollouts, not a replay), printing each return, and falls back to a GIF only on a headless machine. The README preview is now an honest montage of four actual episodes on different terrains (random seeds 11/22/33/44, returns 214-285) rather than a single cherry-picked clip.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.6" id="operantlunar-046">operantlunar 0.4.6<a class="anchor" aria-label="anchor" href="#operantlunar-046"></a></h2>
 <ul><li>Added a LunarLander quickstart. The verified-solved PPO policy is bundled (<code>inst/extdata/ppo_seed0_solved.zip</code>) and a runnable example, <code>system.file("examples", "lunar_quickstart.R", package = "operantlunar")</code>, loads it, runs an episode well above the solved threshold, and renders a GIF of the landing. The README shows the rendered landing and documents one-step Python provisioning through reticulate (<code>gymnasium[box2d]</code>, <code>stable-baselines3</code>, <code>pillow</code>).</li>

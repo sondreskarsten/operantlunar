@@ -35,18 +35,26 @@ path.
 ## Quickstart: watch a solved policy land
 
 The package bundles a verified-solved PPO policy (true mean ~243 over
-200 terrains) and a runnable example that renders it landing. Run:
+200 terrains) and a runnable example that lets you **watch it fly**.
+Run:
 
 ``` r
 
 source(system.file("examples", "lunar_quickstart.R", package = "operantlunar"))
 ```
 
-It loads the bundled policy, runs an episode well above the solved
-threshold, and writes `lunar_solved.gif`:
+By default it opens a real-time window and plays several fresh episodes
+on random terrains — genuine rollouts, not a replay — printing each
+return. On a headless machine it falls back to writing a GIF of those
+same runs.
 
-![A solved LunarLander-v3 episode rendered from the bundled PPO
-policy](reference/figures/README-lunar-solved.gif)
+The preview below is not a single cherry-picked clip: it is four actual
+episodes on different terrains (random seeds 11, 22, 33, 44; returns
+236, 214, 260, 285), all landing.
+
+![Four LunarLander-v3 episodes on different terrains, all landing,
+rendered from the bundled PPO
+policy](reference/figures/README-lunar-runs.gif)
 
 The example drives Gymnasium through `reticulate`; the environment and
 `stable-baselines3` are provisioned on first use, or point

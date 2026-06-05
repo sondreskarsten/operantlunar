@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">operantlunar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,11 +73,12 @@
 <div class="section level2">
 <h2 id="quickstart-watch-a-solved-policy-land">Quickstart: watch a solved policy land<a class="anchor" aria-label="anchor" href="#quickstart-watch-a-solved-policy-land"></a>
 </h2>
-<p>The package bundles a verified-solved PPO policy (true mean ~243 over 200 terrains) and a runnable example that renders it landing. Run:</p>
+<p>The package bundles a verified-solved PPO policy (true mean ~243 over 200 terrains) and a runnable example that lets you <strong>watch it fly</strong>. Run:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"lunar_quickstart.R"</span>, package <span class="op">=</span> <span class="st">"operantlunar"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>It loads the bundled policy, runs an episode well above the solved threshold, and writes <code>lunar_solved.gif</code>:</p>
-<p><img src="reference/figures/README-lunar-solved.gif" alt="A solved LunarLander-v3 episode rendered from the bundled PPO policy" width="50%"></p>
+<p>By default it opens a real-time window and plays several fresh episodes on random terrains — genuine rollouts, not a replay — printing each return. On a headless machine it falls back to writing a GIF of those same runs.</p>
+<p>The preview below is not a single cherry-picked clip: it is four actual episodes on different terrains (random seeds 11, 22, 33, 44; returns 236, 214, 260, 285), all landing.</p>
+<p><img src="reference/figures/README-lunar-runs.gif" alt="Four LunarLander-v3 episodes on different terrains, all landing, rendered from the bundled PPO policy" width="55%"></p>
 <p>The example drives Gymnasium through <code>reticulate</code>; the environment and <code>stable-baselines3</code> are provisioned on first use, or point <code>lunar_setup("/path/to/python")</code> at an interpreter that already has <code>gymnasium[box2d]</code>, <code>stable-baselines3</code> and <code>pillow</code>.</p>
 </div>
 <div class="section level2">
