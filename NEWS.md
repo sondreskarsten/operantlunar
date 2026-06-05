@@ -1,3 +1,7 @@
+# operantlunar 0.4.7
+
+* The LunarLander quickstart now watches the policy live by default: it opens a real-time window and plays several fresh episodes on random terrains (genuine rollouts, not a replay), printing each return, and falls back to a GIF only on a headless machine. The README preview is now an honest montage of four actual episodes on different terrains (random seeds 11/22/33/44, returns 214-285) rather than a single cherry-picked clip.
+
 # operantlunar 0.4.6
 
 * Added a LunarLander quickstart. The verified-solved PPO policy is bundled (`inst/extdata/ppo_seed0_solved.zip`) and a runnable example, `system.file("examples", "lunar_quickstart.R", package = "operantlunar")`, loads it, runs an episode well above the solved threshold, and renders a GIF of the landing. The README shows the rendered landing and documents one-step Python provisioning through reticulate (`gymnasium[box2d]`, `stable-baselines3`, `pillow`).
