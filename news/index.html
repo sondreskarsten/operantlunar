@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">operantlunar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,10 @@
       <small>Source: <a href="https://github.com/sondreskarsten/operantlunar/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.6" id="operantlunar-046">operantlunar 0.4.6<a class="anchor" aria-label="anchor" href="#operantlunar-046"></a></h2>
+<ul><li>Added a LunarLander quickstart. The verified-solved PPO policy is bundled (<code>inst/extdata/ppo_seed0_solved.zip</code>) and a runnable example, <code>system.file("examples", "lunar_quickstart.R", package = "operantlunar")</code>, loads it, runs an episode well above the solved threshold, and renders a GIF of the landing. The README shows the rendered landing and documents one-step Python provisioning through reticulate (<code>gymnasium[box2d]</code>, <code>stable-baselines3</code>, <code>pillow</code>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.5" id="operantlunar-045">operantlunar 0.4.5<a class="anchor" aria-label="anchor" href="#operantlunar-045"></a></h2>
 <ul><li>Corrected the Extinction entry in <code><a href="../reference/aba_toolkit.html">aba_toolkit()</a></code>: it previously stated that behaviour acquired on leaner schedules is more resistant to extinction (the partial-reinforcement extinction effect), but <code><a href="../reference/extinction_experiment.html">extinction_experiment()</a></code> empirically shows the reverse for this value-tracking agent – continuous reinforcement builds the highest action value and is slowest to extinguish. The entry and <code><a href="../reference/extinction_experiment.html">extinction_experiment()</a></code>’s documentation now describe the actual ordering and note that PREE, a generalisation-decrement phenomenon, is not reproduced.</li>

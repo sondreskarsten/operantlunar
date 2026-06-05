@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">operantlunar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,6 +71,16 @@
 <p>In RStudio, open the project and use the <strong>Build</strong> pane (Install, Check, Document). The package is native R; the Python LunarLander environment is optional and only needed for the <code><a href="reference/lunar_setup.html">lunar_setup()</a></code> / <code><a href="reference/differentiate.html">differentiate()</a></code> path.</p>
 </div>
 <div class="section level2">
+<h2 id="quickstart-watch-a-solved-policy-land">Quickstart: watch a solved policy land<a class="anchor" aria-label="anchor" href="#quickstart-watch-a-solved-policy-land"></a>
+</h2>
+<p>The package bundles a verified-solved PPO policy (true mean ~243 over 200 terrains) and a runnable example that renders it landing. Run:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples"</span>, <span class="st">"lunar_quickstart.R"</span>, package <span class="op">=</span> <span class="st">"operantlunar"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>It loads the bundled policy, runs an episode well above the solved threshold, and writes <code>lunar_solved.gif</code>:</p>
+<p><img src="reference/figures/README-lunar-solved.gif" alt="A solved LunarLander-v3 episode rendered from the bundled PPO policy" width="50%"></p>
+<p>The example drives Gymnasium through <code>reticulate</code>; the environment and <code>stable-baselines3</code> are provisioned on first use, or point <code>lunar_setup("/path/to/python")</code> at an interpreter that already has <code>gymnasium[box2d]</code>, <code>stable-baselines3</code> and <code>pillow</code>.</p>
+</div>
+<div class="section level2">
 <h2 id="what-it-does">What it does<a class="anchor" aria-label="anchor" href="#what-it-does"></a>
 </h2>
 <p>Everything runs on one learning skeleton — <code><a href="reference/make_table.html">make_table()</a></code>, <code><a href="reference/run_episode.html">run_episode()</a></code>, <code><a href="reference/run_training.html">run_training()</a></code>, <code><a href="reference/evaluate_policy.html">evaluate_policy()</a></code> — which is agent- and environment-agnostic. Only the <strong>update rule</strong> and the <strong>environment</strong> change. Three layers build on it.</p>
@@ -78,7 +88,7 @@
 <h3 id="id_1-maximization-vs-melioration--the-namesake">1. Maximization vs melioration — the namesake<a class="anchor" aria-label="anchor" href="#id_1-maximization-vs-melioration--the-namesake"></a>
 </h3>
 <p>A rule that bootstraps future value and selects greedily <em>maximizes</em>; a myopic linear-operator preference with probability-matching selection <em>meliorates</em>. Both expose the same <code>select</code> / <code>update</code> / <code>greedy</code> / <code>action_dist</code> interface.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sondreskarsten/operantlunar" class="external-link">operantlunar</a></span><span class="op">)</span></span>
 <span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/td_agent.html">td_agent</a></span><span class="op">(</span><span class="op">)</span>           <span class="co"># Q-learning: bootstrap + epsilon-greedy   -&gt; maximizes</span></span>
 <span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/melioration_agent.html">melioration_agent</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># gradient-bandit preference, prob matching -&gt; meliorates</span></span></code></pre></div>
@@ -138,7 +148,7 @@
 </h3>
 <p>RL practice does not lack evaluation; it lacks <em>conclusions that survive the choices made to reach them</em>. The same agent can be called solved or not, best or worst, depending on training steps, seeds, the checkpoint kept, and the number and seeds of evaluation episodes — choices rarely reported and almost never held fixed. ABA is a mature discipline for reaching conclusions stable under exactly these choices, and this layer ports it as a <strong>parameter-fixed protocol</strong>: a steady-state reading rule (<code><a href="reference/stability_reached.html">stability_reached()</a></code>), a standardized criterion-line decision rule (<code><a href="reference/criterion_line_verdict.html">criterion_line_verdict()</a></code>, after Hagopian et al. 1997), and idiographic replication that never pools across subjects (<code><a href="reference/functional_analysis_replicated.html">functional_analysis_replicated()</a></code>).</p>
 <p>On a stochastic functional-analysis task, replicating subjects yields a reliability summary rather than one seed’s answer:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/functional_analysis_replicated.html">functional_analysis_replicated</a></span><span class="op">(</span></span>
 <span>  true_function <span class="op">=</span> <span class="st">"escape"</span>, p_reinforce <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>  n_subjects <span class="op">=</span> <span class="fl">5L</span>, min_subjects <span class="op">=</span> <span class="fl">5L</span>,</span>
@@ -150,19 +160,19 @@
 <span><span class="co">#&gt;   verdict n proportion</span></span>
 <span><span class="co">#&gt; 1  escape 5          1</span></span></code></pre></div>
 <p>The same logic applies to a real control task. Eight policies were trained on LunarLander-v3 and evaluated across 200 terrains; the returns are bundled. Four are DQN policies (seeds 0–3, near-solved or worse); four are PPO policies (seeds 99–102) trained to a common 620k-step budget by clean chunked resume, and <strong>all four solve</strong> (true means of about 243, 219, 238 and 242). Held out on a disjoint terrain set, the first PPO policy still scores about 227 — the solve is real out of sample. Both algorithms run a training-seed lottery, but PPO’s governs solve <em>quality</em> while DQN’s is catastrophic (two of its four seeds fail outright).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="fu"><a href="reference/lunar_returns.html">lunar_returns</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">ret</span>, <span class="fu"><a href="reference/lunar_returns.html">lunar_returns</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">policy_seed</span>, <span class="va">mean</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     0     1     2     3    99   100   101   102 </span></span>
 <span><span class="co">#&gt; 182.3 166.8  -1.2   6.4 242.9 218.5 237.7 242.3</span></span></code></pre></div>
 <p>The protocol’s value shows up as conclusion stability. <em>Is a policy solved?</em> A five-episode evaluation is a coin flip near the threshold; the protocol reads a settled estimate against the frozen threshold with a bootstrap confidence.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lunar_solved_convergence.html">lunar_solved_convergence</a></span><span class="op">(</span>policy_seed <span class="op">=</span> <span class="fl">0L</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>adhoc_distinct <span class="op">=</span> <span class="va">d</span><span class="op">$</span><span class="va">adhoc_distinct</span>, protocol <span class="op">=</span> <span class="va">d</span><span class="op">$</span><span class="va">protocol_verdict</span>,</span>
 <span>  estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">protocol_estimate</span>, <span class="fl">1</span><span class="op">)</span>, boot_P_solved <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">bootstrap_solved_fraction</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; adhoc_distinct       protocol       estimate  boot_P_solved </span></span>
 <span><span class="co">#&gt;            "2"   "not solved"        "173.6"         "0.01"</span></span></code></pre></div>
 <p><em>Which trained seed is reliable?</em> At a fixed budget the seeds split — the four PPO policies clear the bar, the four DQN policies do not:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="reference/lunar_training_reliability.html">lunar_training_reliability</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">per_seed</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   policy_seed estimate stable    verdict</span></span>
 <span><span class="co">#&gt; 1           0    173.6   TRUE not solved</span></span>
@@ -179,7 +189,7 @@
 <div class="section level2">
 <h2 id="interactive-app">Interactive app<a class="anchor" aria-label="anchor" href="#interactive-app"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The bundled Shiny app exposes the operant battery, the ABA-on-Gymnasium instruments, and a <strong>Protocol value-add</strong> tab that stress-tests the is-it-solved and best-policy conclusions on the bundled returns, contrasting the budget-dependent ad hoc verdict with the invariant protocol verdict.</p>
 </div>
@@ -262,7 +272,7 @@
 <div class="section level2">
 <h2 id="learn-more">Learn more<a class="anchor" aria-label="anchor" href="#learn-more"></a>
 </h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"operantlunar"</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>

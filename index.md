@@ -32,6 +32,27 @@ is optional and only needed for the
 [`differentiate()`](https://sondreskarsten.github.io/operantlunar/reference/differentiate.md)
 path.
 
+## Quickstart: watch a solved policy land
+
+The package bundles a verified-solved PPO policy (true mean ~243 over
+200 terrains) and a runnable example that renders it landing. Run:
+
+``` r
+
+source(system.file("examples", "lunar_quickstart.R", package = "operantlunar"))
+```
+
+It loads the bundled policy, runs an episode well above the solved
+threshold, and writes `lunar_solved.gif`:
+
+![A solved LunarLander-v3 episode rendered from the bundled PPO
+policy](reference/figures/README-lunar-solved.gif)
+
+The example drives Gymnasium through `reticulate`; the environment and
+`stable-baselines3` are provisioned on first use, or point
+`lunar_setup("/path/to/python")` at an interpreter that already has
+`gymnasium[box2d]`, `stable-baselines3` and `pillow`.
+
 ## What it does
 
 Everything runs on one learning skeleton —

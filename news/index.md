@@ -1,5 +1,15 @@
 # Changelog
 
+## operantlunar 0.4.6
+
+- Added a LunarLander quickstart. The verified-solved PPO policy is
+  bundled (`inst/extdata/ppo_seed0_solved.zip`) and a runnable example,
+  `system.file("examples", "lunar_quickstart.R", package = "operantlunar")`,
+  loads it, runs an episode well above the solved threshold, and renders
+  a GIF of the landing. The README shows the rendered landing and
+  documents one-step Python provisioning through reticulate
+  (`gymnasium[box2d]`, `stable-baselines3`, `pillow`).
+
 ## operantlunar 0.4.5
 
 - Corrected the Extinction entry in
